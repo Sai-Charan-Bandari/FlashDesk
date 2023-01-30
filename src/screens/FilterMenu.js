@@ -1,13 +1,23 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React from 'react'
+import React,{useState} from 'react'
+import { Box, Button, HStack, ScrollView } from 'native-base'
 
 // shows different categories and select a specific category
 
-const FilterMenu = () => {
+const FilterMenu = ({type}) => {
+    let [highlight,setHighlight]=useState(type)
+    let typeArr=['Technology','Sports','Economy','Politics','Science','Stocks','Wildlife']
   return (
-    <View>
-      <Text>FilterMenu</Text>
-    </View>
+    <Box>
+        <ScrollView horizontal p='2'>
+            {typeArr.map((ele,i)=>
+            <Button m='2' p='2' rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}}
+            onPress={()=>setHighlight(ele)}>
+                {ele}
+                </Button>
+            )}
+        </ScrollView>
+    </Box>
   )
 }
 

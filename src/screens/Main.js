@@ -19,7 +19,6 @@ const Main = () => {
             <Stack.Screen name='ArticlePage' component={ArticlePage}/>
             <Stack.Screen name='Profile' component={Profile}/>
         </Stack.Navigator>
-      <Text>Main</Text>
     </NavigationContainer>
   )
 }

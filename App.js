@@ -2,12 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import { StyleSheet, Text, View } from 'react-native';
 import Main from './src/screens/Main';
+import {RecoilRoot} from 'recoil';
+
 export default function App() {
   return (
+    <RecoilRoot>
     <NativeBaseProvider style={styles.container}>
       <Main/>
       <StatusBar style="auto" />
     </NativeBaseProvider>
+    </RecoilRoot>
   );
 }
 
