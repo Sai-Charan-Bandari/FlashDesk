@@ -8,7 +8,7 @@ const Profile = ({navigation}) => {
     let val=useRecoilValue(savedNewsArticles)
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
   return (
-    <View>
+    <Box pl='3'>
       <Text>Name</Text>
       <Text>Userid</Text>
       {/* show/hide imgs */}
@@ -19,13 +19,13 @@ const Profile = ({navigation}) => {
             {/* saved flash cards */}
             {/* saved authors */}
             {/* saved  sources*/}
-      {val.length<1 && <Text>arey yaar</Text> }
+      {val.length<1 && <Text>No FlashCards saved yet.</Text> }
         <FlatList data={val} renderItem={(ele)=>
          <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:ele.item})}>
          <NewsCard data={ele.item} saved={true}/>   
        </TouchableOpacity>
         }/>
-    </View>
+    </Box>
   )
 }
 

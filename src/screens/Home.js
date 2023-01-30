@@ -13,9 +13,12 @@ let BASE_URL = "https://saurav.tech/NewsAPI/"
 const Home=({navigation,route})=>{
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
+  const [categorizer,setCategorizer]=useState(route.params.text)
+
+
   const getData=async()=>{
     try{
-    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/health/in.json")
+    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json")
     let d2=await d1.json()
     setAlist(d2.articles)
     setIsLoading(false)
@@ -25,14 +28,14 @@ const Home=({navigation,route})=>{
   }
   useEffect(()=>{
     getData()
-  },[])
+  },[categorizer])
   useEffect(()=>{
     console.log(alist)
   },[alist])
   return(
     <Box>
-      <FilterMenu type={route.params.text}/>
-      <Box  bg={route.params.color} p='5' mb='2'>{route.params.text}</Box>
+      <FilterMenu type={categorizer} setCategorizer={setCategorizer}/>
+      <Box  bg={route.params.color} p='5' mb='2'>{categorizer}</Box>
       {isLoading
       ?
       <Spinner size={'lg'} />

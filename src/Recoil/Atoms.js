@@ -16,4 +16,8 @@ import {
     key:'loadImg',
     default:true
   })
-  export {navToHome,savedNewsArticles,loadImg}
+  const category=atom({
+    key:'category',
+    default:'general'
+  })
+  export {navToHome,savedNewsArticles,loadImg,category}
