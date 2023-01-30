@@ -12,4 +12,8 @@ import {
     key:'savedNewsArticles',
     default:[]
   })
-  export {navToHome,savedNewsArticles}
+  const loadImg=atom({
+    key:'loadImg',
+    default:true
+  })
+  export {navToHome,savedNewsArticles,loadImg}

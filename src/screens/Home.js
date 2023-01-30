@@ -37,22 +37,21 @@ const Home=({navigation,route})=>{
       ?
       <Spinner size={'lg'} />
       :
-      // <Box mt='10' bg={route.params.color} p='5' my='2'>{alist[0].description}</Box>
-      // <FlatList data={alist} renderItem={({item})=>{
-      //   console.log("the item is ",item)
-      //   return(
-      //     <TouchableOpacity>
-      //       <NewsCard source={item.source.name} author={item.author} title={item.title} description={item.description} />   
-      //     </TouchableOpacity>
-      //     )
-      //   }
-      // } />
+      <FlatList data={alist} renderItem={({item})=>{
+        console.log("the item is ",item)
+        return(
+          <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage')}>
+            <NewsCard data={item} />   
+          </TouchableOpacity>
+          )
+        }
+      } />
 
-      <ScrollView>
-        {alist &&  alist.map((item,i)=>
-        <NewsCard data={item} />   
-        )}
-      </ScrollView>
+      // <ScrollView>
+      //   {alist &&  alist.map((item,i)=>
+      //   <NewsCard data={item} />   
+      //   )}
+      // </ScrollView>
       }
       
       <Button onPress={()=>navigation.navigate('ArticlePage')}>
