@@ -35,7 +35,7 @@ console.log('the value of save is ',save)
       />
     :
       <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={save ? "red.700" : 'blue.500'}
-        icon={<Icon size="md" as={MaterialCommunityIcons} name="bookmark" color={ "white"} />}
+        icon={<Icon size="md" shadow={4} as={MaterialCommunityIcons} name="bookmark" color={ "white"} />}
         onPress={()=>{
             if(save){
                 let k=val.filter((e)=>e!=data)

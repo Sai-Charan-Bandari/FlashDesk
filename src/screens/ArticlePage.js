@@ -33,7 +33,7 @@ const ArticlePage = ({route:{params:{data}}}) => {
       <Box bg='white' mb='3' p='3' rounded={'lg'} >
         <Text style={{fontWeight:'bold',fontSize:16}}>{data.title}</Text>
         </Box>
-        <Image source={{uri:data.urlToImage}} rounded='5' alt="Alternate Text" height={200} width={'100%'}/>
+        <Image source={{uri:data.urlToImage}} rounded='5' alt="Alternate Text" height={250} width={'100%'}/>
         <Divider orientation='horizontal' bg='black' m='2'/>
         <Box  p='3' bg='white' my='3' rounded="lg">
         <Text >Source : {data.source.name}</Text>

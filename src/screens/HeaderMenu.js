@@ -7,8 +7,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 const HeaderMenu = () => {
   const navigation=useNavigation()
   return (
-    <View>
-      <HStack p='5'>
+      <HStack p='5' mt='2.5'>
         <Button bg='red.700'
           onPress={()=>{Linking.openURL('https://github.com/Sai-Charan-Bandari/FlashDesk')}}
            _text={{fontFamily:'body',fontStyle:'italic',fontWeight:'bold'}}
@@ -18,11 +17,10 @@ const HeaderMenu = () => {
         
         <Button bg='red.700' ml='auto'
         onPress={()=>{navigation.navigate('Profile')}}>
-            <Image size={'xs'} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image>
+            <Image width={30} height={30} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image>
           </Button>
       </HStack>
      
-    </View>
   )
 }
 

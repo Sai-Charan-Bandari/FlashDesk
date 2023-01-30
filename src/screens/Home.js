@@ -13,12 +13,14 @@ let BASE_URL = "https://saurav.tech/NewsAPI/"
 const Home=({navigation,route})=>{
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
-  const [categorizer,setCategorizer]=useState(route.params.text)
+  const [categorizer,setCategorizer]=useState(route.params.cat)
+  const [source,setSource]=useState(route.params.src)
 
 
-  const getData=async()=>{
+  const getData=async(isCategory=true)=>{
     try{
-    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json")
+    let d1=await fetch(isCategory ? "https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json"
+     : "https://saurav.tech/NewsAPI/everything/"+source.toLowerCase()+".json" )
     let d2=await d1.json()
     setAlist(d2.articles)
     setIsLoading(false)
@@ -27,20 +29,27 @@ const Home=({navigation,route})=>{
     }
   }
   useEffect(()=>{
-    getData()
+    if(categorizer)
+    getData(true)
   },[categorizer])
+
+  useEffect(()=>{
+    if(source)
+    getData(false)
+  },[source])
+
   useEffect(()=>{
     console.log(alist)
   },[alist])
   return(
     <Box>
-      <FilterMenu type={categorizer} setCategorizer={setCategorizer}/>
-      <Box  bg={route.params.color} p='5' mb='2'>{categorizer}</Box>
+      <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource}/>
+      <Box  bg={route.params.color} p='4' mb='2' _text={{fontWeight:'bold',fontSize:'lg'}}>{categorizer ? categorizer : source}</Box>
       {isLoading
       ?
       <Spinner size={'lg'} />
       :
-      <FlatList style={{height:'80%'}} data={alist} renderItem={({item})=>{
+      <FlatList style={{height:'85%'}} data={alist} renderItem={({item})=>{
         console.log("the item is ",item)
         return(
           <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:item})}>
@@ -51,9 +60,9 @@ const Home=({navigation,route})=>{
       } />
       }
       
-      <Button onPress={()=>navigation.navigate('ArticlePage')}>
-        {isLoading ? 'loading news...':'next'}
-      </Button>
+        { isLoading &&
+      <Button disabled>'loading news...':'next'</Button>
+        }
     </Box>
   )
 }
