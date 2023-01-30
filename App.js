@@ -9,7 +9,7 @@ export default function App() {
     <RecoilRoot>
     <NativeBaseProvider style={styles.container}>
       <Main/>
-      <StatusBar style="auto" />
+      {/* <StatusBar style="auto" /> */}
     </NativeBaseProvider>
     </RecoilRoot>
   );

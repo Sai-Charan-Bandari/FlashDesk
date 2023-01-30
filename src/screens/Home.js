@@ -6,14 +6,18 @@ import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
 import {USERKEY} from '../keys'
 
+let BASE_URL = "https://saurav.tech/NewsAPI/"
+// top_headlines_api = BASE_URL+"/top-headlines/category/<category>/<country_code>.json"
+// everything_api = BASE_URL+"/everything/<source_id>.json"
+
 const Home=({navigation,route})=>{
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
   const getData=async()=>{
     try{
-    let d1=await fetch('https://newsapi.org/v2/everything?q=tesla&from=2022-12-30&sortBy=publishedAt&apiKey='+USERKEY)
+    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/health/in.json")
     let d2=await d1.json()
-    // setAlist(d2)
+    setAlist(d2.articles)
     setIsLoading(false)
     }catch(e){
       console.log('error in fetching data')
@@ -23,12 +27,12 @@ const Home=({navigation,route})=>{
     getData()
   },[])
   useEffect(()=>{
-    // console.log(alist)
+    console.log(alist)
   },[alist])
   return(
     <Box>
       <FilterMenu type={route.params.text}/>
-      <Box mt='10' bg={route.params.color} p='5' my='2'>{route.params.text}</Box>
+      <Box mt='10' bg={route.params.color} p='5' mb='5'>{route.params.text}</Box>
       {isLoading
       ?
       <Spinner size={'lg'} />
@@ -43,16 +47,16 @@ const Home=({navigation,route})=>{
       //     )
       //   }
       // } />
+
       <ScrollView>
-        {alist.map((item,i)=>
-        // <NewsCard source={item.source.name} author={item.author} title={item.title} description={item.description} />   
-        <Text>{item}</Text>
+        {alist &&  alist.map((item,i)=>
+        <NewsCard data={item} />   
         )}
       </ScrollView>
       }
       
       <Button onPress={()=>navigation.navigate('ArticlePage')}>
-        next
+        {isLoading ? 'loading news...':'next'}
       </Button>
     </Box>
   )

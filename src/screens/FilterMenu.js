@@ -6,12 +6,12 @@ import { Box, Button, HStack, ScrollView } from 'native-base'
 
 const FilterMenu = ({type}) => {
     let [highlight,setHighlight]=useState(type)
-    let typeArr=['Technology','Sports','Economy','Politics','Science','Stocks','Wildlife']
+    let typeArr=[' All ','Technology','Sports','Economy','Politics','Science','Stocks','Wildlife']
   return (
     <Box>
-        <ScrollView horizontal p='2'>
+        <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2'>
             {typeArr.map((ele,i)=>
-            <Button m='2' p='2' rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}}
+            <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}}
             onPress={()=>setHighlight(ele)}>
                 {ele}
                 </Button>

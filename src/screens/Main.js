@@ -13,7 +13,7 @@ const Main = () => {
   return (
     <NavigationContainer>
         <HeaderMenu />
-        <Stack.Navigator initialRouteName='StartOptions'>
+        <Stack.Navigator initialRouteName='StartOptions' screenOptions={{headerShown:false}}>
             <Stack.Screen name='Home' component={Home}/>
             <Stack.Screen name='StartOptions' component={StartOptions}/>
             <Stack.Screen name='ArticlePage' component={ArticlePage}/>

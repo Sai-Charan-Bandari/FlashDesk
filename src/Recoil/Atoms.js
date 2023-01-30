@@ -8,8 +8,8 @@ import {
     default:''
   })
 
-  const newsArticles=atom({
-    key:'newsArticles',
+  const savedNewsArticles=atom({
+    key:'savedNewsArticles',
     default:[]
   })
-  export {navToHome,newsArticles}
+  export {navToHome,savedNewsArticles}

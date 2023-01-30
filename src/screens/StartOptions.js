@@ -22,7 +22,7 @@ const StartOptions = ({navigation}) => {
         <OptionCard text='Technology' color='blue.400'></OptionCard>
         </VStack>
       </HStack>
-      <Button mt='5' width={'3/4'} onPress={()=>navigation.navigate('Home',{text:'Latest Updates'})}>
+      <Button mt='5' width={'3/4'} onPress={()=>navigation.navigate('Home',{text:' All '})}>
         next
       </Button>
       </Center>
