@@ -1,24 +1,29 @@
 import { View, Text,Switch, TouchableOpacity } from 'react-native'
 import React from 'react'
-import {useRecoilState} from 'recoil'
+import {useRecoilState,useRecoilValue} from 'recoil'
 import { savedNewsArticles,loadImg } from '../Recoil/Atoms'
 import { FlatList,Box, HStack } from 'native-base'
 import NewsCard from './NewsCard'
-const Profile = () => {
-    let [val,setVal]=useRecoilState(savedNewsArticles)
+const Profile = ({navigation}) => {
+    let val=useRecoilValue(savedNewsArticles)
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
-    console.log("val is ",val)
   return (
     <View>
       <Text>Name</Text>
       <Text>Userid</Text>
+      {/* show/hide imgs */}
             <HStack>
     <TouchableOpacity onPress={()=>setIsLoadImg(!isloadImg)}><Text>Load images in FlashCards</Text></TouchableOpacity>
         <Switch value={isloadImg} onChange={()=>setIsLoadImg(!isloadImg)}></Switch>
             </HStack>
+            {/* saved flash cards */}
+            {/* saved authors */}
+            {/* saved  sources*/}
       {val.length<1 && <Text>arey yaar</Text> }
         <FlatList data={val} renderItem={(ele)=>
-        <NewsCard data={ele.item}/>
+         <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:ele.item})}>
+         <NewsCard data={ele.item} saved={true}/>   
+       </TouchableOpacity>
         }/>
     </View>
   )

@@ -13,7 +13,7 @@ const StartOptions = ({navigation}) => {
   return (
       <Center m='5' >
       <HStack  mt='20' >
-        <VStack  bg='blue.400'>
+        <VStack  bg='red.600'>
         <OptionCard text='Sports' color='white' ></OptionCard>
         <OptionCard text='Politics' color='orange.400'></OptionCard>
         </VStack>

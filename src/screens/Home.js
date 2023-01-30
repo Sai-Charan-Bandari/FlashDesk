@@ -32,26 +32,20 @@ const Home=({navigation,route})=>{
   return(
     <Box>
       <FilterMenu type={route.params.text}/>
-      <Box mt='10' bg={route.params.color} p='5' mb='5'>{route.params.text}</Box>
+      <Box  bg={route.params.color} p='5' mb='2'>{route.params.text}</Box>
       {isLoading
       ?
       <Spinner size={'lg'} />
       :
-      <FlatList data={alist} renderItem={({item})=>{
+      <FlatList style={{height:'80%'}} data={alist} renderItem={({item})=>{
         console.log("the item is ",item)
         return(
-          <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage')}>
-            <NewsCard data={item} />   
+          <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:item})}>
+            <NewsCard data={item} saved={false}/>   
           </TouchableOpacity>
           )
         }
       } />
-
-      // <ScrollView>
-      //   {alist &&  alist.map((item,i)=>
-      //   <NewsCard data={item} />   
-      //   )}
-      // </ScrollView>
       }
       
       <Button onPress={()=>navigation.navigate('ArticlePage')}>
