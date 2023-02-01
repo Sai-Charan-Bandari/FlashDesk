@@ -17,7 +17,10 @@ const HeaderMenu = () => {
         
         <Button bg='red.700' ml='auto'
         onPress={()=>{navigation.navigate('Profile')}}>
-            <Image width={30} height={30} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image>
+          {/* profile icon*/}
+            {/* <Image width={30} height={30} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image> */}
+            {/* settings icon  */}
+            <Icon as={<MaterialIcons name="settings" />} color="white" size={6} />
           </Button>
       </HStack>
      

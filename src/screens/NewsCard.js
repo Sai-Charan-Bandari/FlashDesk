@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import { Center ,IconButton,Icon, HStack, Box,Image, Divider, Button,Pressable} from 'native-base'
+import { Center ,IconButton,Icon, HStack, Box,Image, Divider, Button,Pressable, Toast, useToast} from 'native-base'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import {savedNewsArticles,loadImg} from '../Recoil/Atoms'
 import {useRecoilState, useRecoilValue} from 'recoil'
@@ -9,15 +9,14 @@ import {useRecoilState, useRecoilValue} from 'recoil'
 const NewsCard = ({data,saved}) => {
 let [val,set]=useRecoilState(savedNewsArticles)
 let isloadImg = useRecoilValue(loadImg)
+let toast=useToast()
 useEffect(()=>{
-    val.forEach((ele)=>
-    console.log(ele.title)
-    )
+    // val.forEach((ele)=>
+    // console.log(ele.title)
+    // )
+    console.log(val.length)
 },[val])
-// save option state
-//if this data is already in savednewsarticles then it must be true else false
-let [save,setSave]=useState(false)
-console.log('the value of save is ',save)
+
   return (
     <Box my='5' rounded={10} mx='2' shadow='5' bg='white' p='3' >
     <HStack m='auto' >
@@ -29,22 +28,24 @@ console.log('the value of save is ',save)
         <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={"red.700"}
         icon={<Icon size="md" as={MaterialCommunityIcons} name="delete" color={ "white"} />}
         onPress={()=>{
-                let k=val.filter((e)=>e!=data)
+          // console.log('inside onPress')
+                let k=val.filter((e)=>e.title!=data.title)
                 set(k)
+                toast.show({description:'unsaved',duration:300})
         }}
       />
     :
-      <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={save ? "red.700" : 'blue.500'}
+      <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={val.filter((e)=>e.title==data.title).length > 0 ? "red.700" : 'blue.500'}
         icon={<Icon size="md" shadow={4} as={MaterialCommunityIcons} name="bookmark" color={ "white"} />}
         onPress={()=>{
-            if(save){
-                let k=val.filter((e)=>e!=data)
+          if(val.filter((e)=>e.title==data.title).length > 0){
+                let k=val.filter((e)=>e.title!=data.title)
                 set(k)
-            }else{
-                if(!val.includes(data)) //not mandatory
+                toast.show({description:'unsaved',duration:300})
+              }else{
                 set([...val,data]);
+                toast.show({description:'saved',duration:300})
             }
-            setSave(!save)
         }}
       />
     }

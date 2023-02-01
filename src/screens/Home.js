@@ -4,13 +4,14 @@ import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView} from 'native-ba
 import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
-import {USERKEY} from '../keys'
+// import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
 // top_headlines_api = BASE_URL+"/top-headlines/category/<category>/<country_code>.json"
 // everything_api = BASE_URL+"/everything/<source_id>.json"
 
 const Home=({navigation,route})=>{
+  
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
   const [categorizer,setCategorizer]=useState(route.params.cat)
@@ -39,7 +40,7 @@ const Home=({navigation,route})=>{
   },[source])
 
   useEffect(()=>{
-    console.log(alist)
+    // console.log(alist)
   },[alist])
   return(
     <Box>
