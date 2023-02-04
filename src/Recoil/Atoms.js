@@ -27,10 +27,19 @@ import {
 
   const logged=atom({
     key:'logged',
-    default:false
+    default:true
     // make sure to set default to false... befroe firebase auth
   })
 
-  //savedsrc
+  const username=atom({
+    key:'username',
+    default:'Charan'
+    // default:'NULL'
+  })
+  const tabIndex=atom({
+    key:'tabIndex',
+    default:1
+  })
+
   //notinterestedsrc
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex}
