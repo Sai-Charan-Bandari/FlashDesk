@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View,FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect ,useState} from 'react'
-import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView} from 'native-base'
+import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
@@ -14,7 +14,7 @@ const Home=({navigation,route})=>{
   
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
-  const [categorizer,setCategorizer]=useState('')
+  const [categorizer,setCategorizer]=useState('general')
   const [source,setSource]=useState('')
 
 
@@ -45,7 +45,7 @@ const Home=({navigation,route})=>{
   return(
     <Box>
       <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource}/>
-      <Box  bg={''} p='4' mb='2' _text={{fontWeight:'bold',fontSize:'lg'}}>{categorizer ? categorizer : source}</Box>
+     
       {isLoading
       ?
       <Spinner size={'lg'} />
