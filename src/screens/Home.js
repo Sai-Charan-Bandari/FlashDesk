@@ -14,8 +14,8 @@ const Home=({navigation,route})=>{
   
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useState([1,2,3])
-  const [categorizer,setCategorizer]=useState(route.params.cat)
-  const [source,setSource]=useState(route.params.src)
+  const [categorizer,setCategorizer]=useState('')
+  const [source,setSource]=useState('')
 
 
   const getData=async(isCategory=true)=>{
@@ -45,7 +45,7 @@ const Home=({navigation,route})=>{
   return(
     <Box>
       <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource}/>
-      <Box  bg={route.params.color} p='4' mb='2' _text={{fontWeight:'bold',fontSize:'lg'}}>{categorizer ? categorizer : source}</Box>
+      <Box  bg={''} p='4' mb='2' _text={{fontWeight:'bold',fontSize:'lg'}}>{categorizer ? categorizer : source}</Box>
       {isLoading
       ?
       <Spinner size={'lg'} />

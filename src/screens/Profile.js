@@ -1,4 +1,4 @@
-import { View, Text,Switch, TouchableOpacity } from 'react-native'
+import { View, Text,Switch, TouchableOpacity, Button } from 'react-native'
 import React from 'react'
 import {useRecoilState,useRecoilValue} from 'recoil'
 import { savedNewsArticles,loadImg } from '../Recoil/Atoms'
@@ -9,6 +9,9 @@ const Profile = ({navigation}) => {
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
   return (
     <Box pl='3'>
+
+    <Button title='click' onPress={()=>navigation.navigate('StartOptions')}/>
+
       <Text>Name</Text>
       <Text>Userid</Text>
       {/* show/hide imgs */}

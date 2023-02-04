@@ -1,14 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { NativeBaseProvider } from 'native-base';
 import { StyleSheet, Text, View } from 'react-native';
-import Main from './src/screens/Main';
 import {RecoilRoot} from 'recoil';
+import NavTabs from './src/screens/NavTabs';
 
 export default function App() {
   return (
     <RecoilRoot>
     <NativeBaseProvider style={styles.container}>
-      <Main/>
+      <NavTabs/>
       {/* <StatusBar style="auto" /> */}
     </NativeBaseProvider>
     </RecoilRoot>

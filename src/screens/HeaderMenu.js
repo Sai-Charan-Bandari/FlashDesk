@@ -5,7 +5,7 @@ import { useNavigation } from '@react-navigation/native'
 import { MaterialIcons } from '@expo/vector-icons'
 
 const HeaderMenu = () => {
-  const navigation=useNavigation()
+  // const navigation=useNavigation()
   return (
       <HStack p='5' mt='2.5'>
         <Button bg='red.700'
@@ -16,7 +16,8 @@ const HeaderMenu = () => {
         </Button>
         
         <Button bg='red.700' ml='auto'
-        onPress={()=>{navigation.navigate('Profile')}}>
+        // onPress={()=>{navigation.navigate('Profile')}}
+        >
           {/* profile icon*/}
             {/* <Image width={30} height={30} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image> */}
             {/* settings icon  */}

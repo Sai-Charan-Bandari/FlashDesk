@@ -20,4 +20,13 @@ import {
     key:'category',
     default:'general'
   })
-  export {navToHome,savedNewsArticles,loadImg,category}
+
+  const logged=atom({
+    key:'logged',
+    default:true
+    // make sure to set default to false... befroe firebase auth
+  })
+  
+  //savedsrc
+  //notinterestedsrc
+  export {navToHome,savedNewsArticles,loadImg,category,logged}
