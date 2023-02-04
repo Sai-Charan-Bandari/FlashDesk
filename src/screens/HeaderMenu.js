@@ -2,9 +2,12 @@ import { View, Text ,Linking} from 'react-native'
 import React from 'react'
 import { Button, HStack ,IconButton,Icon,Image} from 'native-base'
 import { useNavigation } from '@react-navigation/native'
-import { MaterialIcons } from '@expo/vector-icons'
+import { MaterialIcons,Ionicons } from '@expo/vector-icons'
+import {logged} from '../Recoil/Atoms'
+import { useRecoilValue } from 'recoil'
 
 const HeaderMenu = () => {
+  const loggedIn=useRecoilValue(logged)
   // const navigation=useNavigation()
   return (
       <HStack p='5' mt='2.5'>
@@ -16,12 +19,17 @@ const HeaderMenu = () => {
         </Button>
         
         <Button bg='red.700' ml='auto'
-        // onPress={()=>{navigation.navigate('Profile')}}
+        onPress={()=>{
+          
+        }}
         >
-          {/* profile icon*/}
-            {/* <Image width={30} height={30} source={{uri:"https://cdn-icons-png.flaticon.com/128/9131/9131529.png"}} alt='couldnt load img'></Image> */}
-            {/* settings icon  */}
+          {
+            loggedIn
+            ?
             <Icon as={<MaterialIcons name="settings" />} color="white" size={6} />
+            :
+            <Ionicons name="person-circle-sharp" size={26} color="white" />
+          }
           </Button>
       </HStack>
      

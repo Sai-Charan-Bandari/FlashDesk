@@ -3,11 +3,6 @@ import {
     selector,
   } from 'recoil';
 
-  const navToHome=atom({
-    key:'navToHome',
-    default:''
-  })
-
   const savedNewsArticles=atom({
     key:'savedNewsArticles',
     default:[]
@@ -20,13 +15,22 @@ import {
     key:'category',
     default:'general'
   })
+  const savedCategories=atom({
+    key:'savedCategories',
+    default:['general']
+  })
+  const savedSources=atom({
+    key:'savedSources',
+    default:['No sources saved yet']
+    // default:['No sources saved yet','science','fiction']
+  })
 
   const logged=atom({
     key:'logged',
-    default:true
+    default:false
     // make sure to set default to false... befroe firebase auth
   })
-  
+
   //savedsrc
   //notinterestedsrc
-  export {navToHome,savedNewsArticles,loadImg,category,logged}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories}

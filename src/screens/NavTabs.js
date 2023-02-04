@@ -7,7 +7,7 @@ import { logged } from '../Recoil/Atoms';
 import { useRecoilValue } from 'recoil';
 import Home from './Home';
 import StartOptions from './StartOptions';
-import Main from './Main';
+import Main from './SubNavContainer';
 
 const FirstRoute = () => (
   <View style={{ flex: 1, backgroundColor: '#ff4081' }} />
@@ -61,7 +61,6 @@ export default function NavTabs() {
 
   return (
     <>
-    <SafeAreaProvider>
 
 <HeaderMenu/>
     <TabView
@@ -71,7 +70,6 @@ export default function NavTabs() {
       initialLayout={{ width: layout.width }}
       renderTabBar={props=><></>}
       />
-      </SafeAreaProvider>
       </>
   );
 }
