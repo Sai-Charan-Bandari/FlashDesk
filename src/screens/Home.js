@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
 import { useRecoilState } from 'recoil'
-import { loadedNewsArticles } from '../Recoil/Atoms'
+import { loadedNewsArticles,category } from '../Recoil/Atoms'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -16,7 +16,7 @@ const Home=({navigation,route})=>{
   
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useRecoilState(loadedNewsArticles)
-  const [categorizer,setCategorizer]=useState('general')
+  const [categorizer,setCategorizer]=useRecoilState(category)
   const [source,setSource]=useState('')
 
 
@@ -52,7 +52,7 @@ const Home=({navigation,route})=>{
       ?
       <Spinner size={'lg'} />
       :
-      <FlatList style={{height:'85%'}} data={alist} renderItem={({item})=>{
+      <FlatList style={{height:'90%'}} data={alist} renderItem={({item})=>{
         // console.log("the item is ",item)
         return(
           <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:item})}>

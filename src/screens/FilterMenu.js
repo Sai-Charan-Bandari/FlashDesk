@@ -3,11 +3,12 @@ import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
-import { savedSources,loadedNewsArticles } from '../Recoil/Atoms'
+import { savedSources,loadedNewsArticles,tabIndex } from '../Recoil/Atoms'
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
 const FilterMenu = ({type,setCategorizer,source,setSource}) => {
+  const selectedTabIs =useRecoilValue(tabIndex)
     const sourcesArr = useRecoilValue(savedSources)
     const [aList,setAlist] = useRecoilState(loadedNewsArticles)
     // temporary state variable ...this value stores all the content of the original aList
@@ -63,7 +64,10 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
         }
         
 {/* SEARCH BAR */}
-<Fab position="absolute" bg={'red.700'} size="md" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
+{/* the fab must be visible only in Home page */}
+{selectedTabIs==1
+&&
+  <Fab position="absolute" bg={'red.700'} size="md" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
 onPress={()=>{
     if(isOpenSearch){ //closing search bar
         setSearchVal('')
@@ -75,6 +79,7 @@ onPress={()=>{
     setIsOpenSearch(!isOpenSearch)
     }} 
 />
+}
 
 {isOpenSearch &&
         <Box bg={'red.700'} p='3' height={'90%'} mb='2' _text={{fontWeight:'bold',fontSize:'lg',color:'white'}} justifyContent='center'>

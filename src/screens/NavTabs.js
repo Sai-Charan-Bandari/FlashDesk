@@ -7,7 +7,7 @@ import { logged, tabIndex } from '../Recoil/Atoms';
 import { useRecoilValue,useRecoilState} from 'recoil';
 import Home from './Home';
 import StartOptions from './StartOptions';
-import Main from './SubNavContainer';
+import SubNavContainer from './SubNavContainer';
 
 
 export default function NavTabs() {
@@ -46,13 +46,21 @@ export default function NavTabs() {
     {
       first: StartOptions,
       second: Home,
-      third:Main
+      third:SubNavContainer
     })
 
   return (
     <>
 
 <HeaderMenu/>
+
+{/* VIP : NAVIGATION B/W TABS */}
+{/*  IF WE ARE AT SOME TAB 0 AND WANT TO MOVE TO ANOTHER TAB 1 UPON CLICK OF A BUTTON IN TAB 0 
+THEN SIMPLY setIndex(TAB INDEX i.e, 1) TO NAVIGATE TO THAT TAB
+WORKING : WHEN WE UPDATE THE GLOBAL TABINDEX STATE, THEN THE TAB VIEW WILL BE RE-RENDERED AND THIS TIME IT TAKES
+THE NEW INDEX AS START INDEX WITHIN THE navigationState property.
+
+*/}
     <TabView
       navigationState={{ index, routes }}
       renderScene={renderScene}

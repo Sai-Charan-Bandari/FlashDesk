@@ -11,7 +11,7 @@ const HeaderMenu = () => {
   const loggedIn=useRecoilValue(logged)
   const [showModal,setShowModal]=useState(false)
   return (
-      <HStack p='5' mt='2.5'>
+      <HStack p='3' style={{marginTop:20}}>
         {showModal && <LogModal setShowModal={setShowModal} />}
         <Button bg='red.700'
           onPress={()=>{Linking.openURL('https://github.com/Sai-Charan-Bandari/FlashDesk')}}

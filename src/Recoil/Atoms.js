@@ -15,6 +15,7 @@ import {
     key:'loadImg',
     default:true
   })
+  // denotes current selected Category
   const category=atom({
     key:'category',
     default:'general'
@@ -22,6 +23,7 @@ import {
   const savedCategories=atom({
     key:'savedCategories',
     default:['general']
+    // default:[]
   })
   const savedSources=atom({
     key:'savedSources',
@@ -35,11 +37,15 @@ import {
     // make sure to set default to false... befroe firebase auth
   })
 
+  //change this atom to userDetails later
   const username=atom({
     key:'username',
     default:'Charan'
     // default:'NULL'
   })
+
+  //used in FilterMenu and NavTabs
+  //specifies which tab is being displayed currently
   const tabIndex=atom({
     key:'tabIndex',
     default:1
