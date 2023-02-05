@@ -1,14 +1,26 @@
 import { StyleSheet, Text, View } from 'react-native'
-import React,{useState} from 'react'
+import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
-import { savedSources } from '../Recoil/Atoms'
-import { useRecoilValue } from 'recoil'
+import { savedSources,loadedNewsArticles } from '../Recoil/Atoms'
+import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
 const FilterMenu = ({type,setCategorizer,source,setSource}) => {
     const sourcesArr = useRecoilValue(savedSources)
+    const [aList,setAlist] = useRecoilState(loadedNewsArticles)
+    // temporary state variable ...this value stores all the content of the original aList
+    //when we search something then the aList(loadedNewsArticles) will be updated to specific articles only
+    //when we want to retreive the original list then we can get it back using this temporary aList
+    //this aListTemp will be initialized only when user clicks on search-fab button
+    const [aListTemp,setAlistTemp]=useState()
+    useEffect(()=>{
+      //called when it is created/initialized
+      if(aListTemp)
+        console.log('aListTemp : ',aListTemp.length)
+    },[aListTemp])
+
     let [highlight,setHighlight]=useState(type ? type : source)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
@@ -41,7 +53,6 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
               </Button>
 
             :
-            
             sourcesArr.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}}
             onPress={()=>{setHighlight(ele);setSource(ele)}}>
@@ -52,7 +63,18 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
         }
         
 {/* SEARCH BAR */}
-<Fab position="absolute" bg={'red.700'} size="md" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} onPress={()=>{setIsOpenSearch(!isOpenSearch)}} />
+<Fab position="absolute" bg={'red.700'} size="md" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
+onPress={()=>{
+    if(isOpenSearch){ //closing search bar
+        setSearchVal('')
+        setAlist(aListTemp) //putting back original data
+        // setCategorizer('general')
+    }else{ //opening searchbar
+        setAlistTemp(aList) //placing the main data (data of a particular category) into the temporary cache state
+    }
+    setIsOpenSearch(!isOpenSearch)
+    }} 
+/>
 
 {isOpenSearch &&
         <Box bg={'red.700'} p='3' height={'90%'} mb='2' _text={{fontWeight:'bold',fontSize:'lg',color:'white'}} justifyContent='center'>
@@ -64,7 +86,12 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
         name: "search",m:2 , color:"gray.400"
       }} 
       onPress={()=>{
-
+        if(searchVal!=''){
+          let k=aList.filter((e)=>(e.title.includes(searchVal) || e.description.includes(searchVal)))
+          setAlist(k)
+        }else{
+          setAlist(aListTemp) //putting back original data
+        }
       }}
       />
       } />

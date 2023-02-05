@@ -14,7 +14,7 @@ useEffect(()=>{
     // val.forEach((ele)=>
     // console.log(ele.title)
     // )
-    console.log(val.length)
+    console.log('saved news articles : ',val.length)
 },[val])
 
   return (

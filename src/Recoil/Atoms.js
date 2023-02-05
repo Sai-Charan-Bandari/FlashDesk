@@ -3,6 +3,10 @@ import {
     selector,
   } from 'recoil';
 
+  const loadedNewsArticles=atom({
+    key:'loadedNewsArticles',
+    default:[]
+  })
   const savedNewsArticles=atom({
     key:'savedNewsArticles',
     default:[]
@@ -42,4 +46,4 @@ import {
   })
 
   //notinterestedsrc
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles}

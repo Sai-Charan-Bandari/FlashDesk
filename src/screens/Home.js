@@ -4,6 +4,8 @@ import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconB
 import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
+import { useRecoilState } from 'recoil'
+import { loadedNewsArticles } from '../Recoil/Atoms'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -13,7 +15,7 @@ let BASE_URL = "https://saurav.tech/NewsAPI/"
 const Home=({navigation,route})=>{
   
   const [isLoading,setIsLoading]=useState(true)
-  const [alist,setAlist]=useState([1,2,3])
+  const [alist,setAlist]=useRecoilState(loadedNewsArticles)
   const [categorizer,setCategorizer]=useState('general')
   const [source,setSource]=useState('')
 
@@ -40,7 +42,7 @@ const Home=({navigation,route})=>{
   },[source])
 
   useEffect(()=>{
-    // console.log(alist)
+    console.log('home alist : ',alist.length)
   },[alist])
   return(
     <Box>
@@ -51,7 +53,7 @@ const Home=({navigation,route})=>{
       <Spinner size={'lg'} />
       :
       <FlatList style={{height:'85%'}} data={alist} renderItem={({item})=>{
-        console.log("the item is ",item)
+        // console.log("the item is ",item)
         return(
           <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:item})}>
             <NewsCard data={item} saved={false}/>   
