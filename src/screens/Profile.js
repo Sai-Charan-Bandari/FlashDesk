@@ -1,7 +1,7 @@
 import { View, Text,Switch, TouchableOpacity} from 'react-native'
 import React from 'react'
-import {useRecoilState,useRecoilValue} from 'recoil'
-import { savedNewsArticles,loadImg,username,savedCategories } from '../Recoil/Atoms'
+import {useRecoilState,useRecoilValue,useSetRecoilState} from 'recoil'
+import { savedNewsArticles,loadImg,username,savedCategories,tabIndex,orderOfStartOptions} from '../Recoil/Atoms'
 import { FlatList,Box, HStack ,Button} from 'native-base'
 import NewsCard from './NewsCard'
 import { OptionCard1 } from './OptionCard'
@@ -11,6 +11,8 @@ const Profile = ({navigation}) => {
     let uname=useRecoilValue(username)
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
     let [savedCat,setSavedCat]=useRecoilState(savedCategories)
+    let setIndex=useSetRecoilState(tabIndex)
+    let setRevertOrder=useSetRecoilState(orderOfStartOptions)
   return (
     <Box pl='3'>
 
@@ -37,7 +39,10 @@ const Profile = ({navigation}) => {
         }/>
         </Box>
         }
-        <Button onPress={()=>navigation.navigate('EditSavedCat')} bg='red.700' _text={{color:'white'}}>Edit Saved Categories</Button>
+        <Button onPress={()=>{
+          setRevertOrder(true)
+          setIndex(0)
+        }} bg='red.700' _text={{color:'white'}}>Edit Saved Categories</Button>
 
             {/* saved flashcards */}
       {val.length<1

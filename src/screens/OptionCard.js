@@ -26,7 +26,7 @@ const OptionCard2 = ({src,color}) => {
 
 const OptionCard = ({cat,color,type}) => {
   
-  if(!type){
+  if(type){
     // button
     let setIndex=useSetRecoilState(tabIndex)
     let setCategory=useSetRecoilState(category)

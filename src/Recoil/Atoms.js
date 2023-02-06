@@ -31,6 +31,11 @@ import {
     // default:['No sources saved yet','science','fiction']
   })
 
+ const orderOfStartOptions=atom({
+  key:'orderOfStartOptions',
+  default:false
+ })
+
   const logged=atom({
     key:'logged',
     default:true
@@ -52,4 +57,4 @@ import {
   })
 
   //notinterestedsrc
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions}
