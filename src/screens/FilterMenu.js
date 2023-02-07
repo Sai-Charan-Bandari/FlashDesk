@@ -3,13 +3,15 @@ import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
-import { savedSources,loadedNewsArticles,tabIndex } from '../Recoil/Atoms'
+import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged} from '../Recoil/Atoms'
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
 const FilterMenu = ({type,setCategorizer,source,setSource}) => {
   const selectedTabIs =useRecoilValue(tabIndex)
     const sourcesArr = useRecoilValue(savedSources)
+    const savedCatArr = useRecoilValue(savedCategories)
+    const loggedIn = useRecoilValue(logged)
     const [aList,setAlist] = useRecoilState(loadedNewsArticles)
     // temporary state variable ...this value stores all the content of the original aList
     //when we search something then the aList(loadedNewsArticles) will be updated to specific articles only
@@ -26,6 +28,7 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
     let [isOpenSearch,setIsOpenSearch]=useState(false)
+    
   return (
     <Box height={20}>
 
@@ -33,12 +36,25 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
         &&
         <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2' bg={'gray.200'}>
             <Button onPress={()=>setToggle(!toggle)} alignItems={'center'} bg='white' _text={{fontWeight:'bold',color:'black'}}>Categories</Button>
-            {categories.map((ele,i)=>
+            {
+              // if user is not logged in show all categories
+              // if user is logged in but he has not saved any categories except general then show all categories
+            loggedIn==false || savedCatArr.length==1
+            ?
+            categories.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{setHighlight(ele);setCategorizer(ele)}}>
                 {ele}
                 </Button>
-            )}
+            )
+            :
+            savedCatArr.map((ele,i)=>
+            <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
+            onPress={()=>{setHighlight(ele);setCategorizer(ele)}}>
+                {ele}
+                </Button>
+            )
+          }
         </ScrollView>
         }
         {toggle==false && isOpenSearch==false

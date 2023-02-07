@@ -2,7 +2,6 @@ import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Center, Flex, Heading, HStack, ScrollView,  VStack ,IconButton,Icon} from 'native-base'
 import { AntDesign, MaterialIcons } from '@expo/vector-icons'
-import { navToHome } from '../Recoil/Atoms'
 import StartOptions from './StartOptions'
 // import { useNavigation } from '@react-navigation/native'
 

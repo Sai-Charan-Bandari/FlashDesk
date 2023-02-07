@@ -4,13 +4,13 @@ import {useRecoilState,useRecoilValue,useSetRecoilState} from 'recoil'
 import { savedNewsArticles,loadImg,username,savedCategories,tabIndex,orderOfStartOptions} from '../Recoil/Atoms'
 import { FlatList,Box, HStack ,Button} from 'native-base'
 import NewsCard from './NewsCard'
-import { OptionCard1 } from './OptionCard'
+import  OptionCard from './OptionCard'
 
 const Profile = ({navigation}) => {
     let val=useRecoilValue(savedNewsArticles)
     let uname=useRecoilValue(username)
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
-    let [savedCat,setSavedCat]=useRecoilState(savedCategories)
+    let savedCat=useRecoilValue(savedCategories)
     let setIndex=useSetRecoilState(tabIndex)
     let setRevertOrder=useSetRecoilState(orderOfStartOptions)
   return (
@@ -30,15 +30,7 @@ const Profile = ({navigation}) => {
 
           {/* saved categories */} 
           {/* 'general' is saved by default */}
-          {savedCat.length==1 ? <Text>No Categories saved yet.</Text> 
-          : 
-          <Box>
-          <Text>Saved Categories</Text>
-        <FlatList data={savedCat} renderItem={(ele)=>
-          <OptionCard1 cat={ele.item} color='blue' />
-        }/>
-        </Box>
-        }
+          <Text>{savedCat.length<2 ? 'No Categories saved yet.' : `Saved ${savedCat.length-1} categories.`} </Text> 
         <Button onPress={()=>{
           setRevertOrder(true)
           setIndex(0)

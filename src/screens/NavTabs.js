@@ -8,7 +8,7 @@ import { useRecoilValue,useRecoilState} from 'recoil';
 import Home from './Home';
 import StartOptions from './StartOptions';
 import SubNavContainer from './SubNavContainer';
-
+import Intro from './Intro';
 
 export default function NavTabs() {
   const loggedIn=useRecoilValue(logged)
@@ -25,11 +25,13 @@ export default function NavTabs() {
   { key: 'first', title: 'First' },
   { key: 'second', title: 'Second' },
   { key: 'third', title: 'Third' },
-  ])
-  :
-  setRoutes([
-    { key: 'first', title: 'First' },
-    { key: 'second', title: 'Second' },
+  { key: 'fourth', title: 'Fourth' },
+])
+:
+setRoutes([
+  { key: 'first', title: 'First' },
+  { key: 'second', title: 'Second' },
+  { key: 'fourth', title: 'Fourth' },
     ])
  },[loggedIn])
 
@@ -46,7 +48,8 @@ export default function NavTabs() {
     {
       first: StartOptions,
       second: Home,
-      third:SubNavContainer
+      third:SubNavContainer,
+      fourth:Intro
     })
 
   return (
