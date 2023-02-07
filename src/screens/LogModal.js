@@ -91,6 +91,7 @@ const LogModal = ({setShowModal}) => {
                       setUserName(email.substring(0,email.length-10))
                          setLoggedIn(true)
                          setShowModal(false)
+                        //  here take defaultCategory set by the user and setCategorizer to that value
                   } catch (e) {
                       console.error("Error adding document: ", e);
                     }

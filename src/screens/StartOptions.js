@@ -35,7 +35,10 @@ const Options1=()=>{
   let setIndex=useSetRecoilState(tabIndex)
   return(
     <Center m='5'>
-    <Heading >Select a Category</Heading>
+    <Heading >
+      {/* Select a Category */}
+      Checkout a category
+    </Heading>
     <HStack  my={'10'} >
       <VStack  bg='red.600' pl='2' py='2' roundedLeft={5}>
       <OptionCard cat={categories[0]} type={true} color='white' ></OptionCard>

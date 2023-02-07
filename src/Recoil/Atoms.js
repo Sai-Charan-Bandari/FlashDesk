@@ -15,6 +15,11 @@ import {
     key:'loadImg',
     default:true
   })
+  // denotes default Category to be loaded on login
+  const defaultCategory=atom({
+    key:'defaultCategory',
+    default:''
+  })
   // denotes current selected Category
   const category=atom({
     key:'category',
@@ -69,4 +74,4 @@ import {
     default:1
   })
 
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory}

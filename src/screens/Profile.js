@@ -1,10 +1,11 @@
 import { View, Text,Switch, TouchableOpacity} from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import {useRecoilState,useRecoilValue,useSetRecoilState} from 'recoil'
-import { savedNewsArticles,loadImg,username,savedCategories,tabIndex,orderOfStartOptions, savedSources,notInterestedSources} from '../Recoil/Atoms'
-import { FlatList,Box, HStack ,Button} from 'native-base'
+import { savedNewsArticles,loadImg,username,savedCategories,tabIndex,orderOfStartOptions, savedSources,notInterestedSources, defaultCategory} from '../Recoil/Atoms'
+import { FlatList,Box, HStack ,Button, Radio} from 'native-base'
 import NewsCard from './NewsCard'
 import  OptionCard from './OptionCard'
+import { categories } from './StartOptions'
 
 const Profile = ({navigation}) => {
     let val=useRecoilValue(savedNewsArticles)
@@ -15,17 +16,28 @@ const Profile = ({navigation}) => {
     let notSrc=useRecoilValue(notInterestedSources)
     let setIndex=useSetRecoilState(tabIndex)
     let setRevertOrder=useSetRecoilState(orderOfStartOptions)
+    let [radioValue,setRadioValue]=useRecoilState(defaultCategory)
   return (
     <Box pl='3'>
-
-
       <Text>User Name : {uname}</Text>
       <Text>Email : </Text>
-      {/* show/hide imgs */}
+
+      {/* show/hide imgs in flashcards*/}
             <HStack alignItems={'center'}>
     <TouchableOpacity onPress={()=>setIsLoadImg(!isloadImg)}><Text>Load images in FlashCards</Text></TouchableOpacity>
         <Switch value={isloadImg} onChange={()=>setIsLoadImg(!isloadImg)}></Switch>
             </HStack>
+
+      {/* set default category to load flashcards */}
+      <HStack alignItems={'center'}>
+      <Text>{radioValue=='' ? 'Set default category to load upon login':'Default category set to '+radioValue}</Text>
+      <Switch value={radioValue!=''} onChange={()=>setRadioValue('')}></Switch>
+      </HStack>
+          <Radio.Group value={radioValue} onChange={nextValue => {setRadioValue(nextValue);}}>
+            <FlatList data={categories} renderItem={({item})=>
+          <Radio value={item}>{item}</Radio>
+          }/>
+          </Radio.Group>
           {/* saved categories */} 
           {/* 'general' is saved by default */}
           <Text>{savedCat.length<2 ? 'No Categories saved yet.' : `Saved ${savedCat.length-1} categories.`} </Text> 
