@@ -4,8 +4,8 @@ import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconB
 import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
-import { useRecoilState } from 'recoil'
-import { loadedNewsArticles,category,source } from '../Recoil/Atoms'
+import { useRecoilState,useRecoilValue } from 'recoil'
+import { loadedNewsArticles,category,source, notInterestedSources } from '../Recoil/Atoms'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -16,6 +16,11 @@ const Home=({navigation})=>{
   
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useRecoilState(loadedNewsArticles)
+  
+  //for each category fetch we need to filter the data with this blocked sources arr
+  //filtering is not required for saved source search
+  const blockedSrc=useRecoilValue(notInterestedSources)
+
   const [categorizer,setCategorizer]=useRecoilState(category)
   const [src,setSource]=useRecoilState(source)
   let [isOpenSearch,setIsOpenSearch]=useState(false)
@@ -36,10 +41,14 @@ const Home=({navigation})=>{
      : "https://saurav.tech/NewsAPI/top-headlines/category/general/in.json" )
     let d2=await d1.json()
     let d3=d2.articles
-      if(isCategory==false){
+      if(isCategory==false){ //saved source filtering
         d3=d2.articles.filter((e)=>e.source.name==src)
        if(d3.length == 0)
        d3=d2.articles
+      }else{ //blocked sources filtering
+        if(blockedSrc.length>0){
+          d3=d2.articles.filter((e)=>!blockedSrc.includes(e.source.name))
+        }
       }
 
     setAlist(d3)
@@ -69,6 +78,8 @@ const Home=({navigation})=>{
   useEffect(()=>{
     console.log('home alist : ',alist.length)
   },[alist])
+
+
   return(
     <Box>
       <FilterMenu type={categorizer} setCategorizer={setCategorizer} src={src} setSource={setSource} isOpenSearch={isOpenSearch} aListTemp={aListTemp} />

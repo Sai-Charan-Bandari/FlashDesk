@@ -1,13 +1,23 @@
 import { View, Text, Linking,Share } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Box, Divider,HStack,IconButton,Image, ScrollView ,Icon,FavouriteIcon, Button,useToast} from 'native-base'
 import {AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { savedSources } from '../Recoil/Atoms'
+import { savedSources,notInterestedSources } from '../Recoil/Atoms'
 import { useRecoilState } from 'recoil'
 
 
 const ArticlePage = ({route:{params:{data}},navigation}) => {
   const [val,set]=useRecoilState(savedSources)
+  const [notval,setnotval]=useRecoilState(notInterestedSources)
+
+    useEffect(()=>{
+      console.log('notval : ',notval.length)
+    },[notval])
+
+    useEffect(()=>{
+      console.log('val : ',val.length)
+    },[val])
+
   let toast=useToast()
     const onShare = async () => {
         try {
@@ -40,19 +50,49 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
         <Box  p='3' bg='white' my='3' rounded="lg">
           <HStack alignItems={'center'}>
         <Text >Source : {data.source.name}</Text>
-        <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={val.filter((e)=>e==data.source.name).length > 0 ? "red.700" : 'blue.500'}
+
+        {/*  */}
+
+        <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={notval.filter((e)=>e==data.source.name).length > 0 ? "red.700" : 'blue.500'}
+        icon={<MaterialIcons name="not-interested" size={20} color="white" />}
+        onPress={()=>{
+          if(notval.filter((e)=>e==data.source.name).length > 0){
+                let k=notval.filter((e)=>e!=data.source.name)
+                setnotval(k)
+                toast.show({description:'unmarked',duration:500})
+              }else{
+                // if any saved src is to be blocked
+                if(val.includes(data.source.name)){
+                  let k=val.filter((e)=>e!=data.source.name)
+                set(k)
+                }
+                setnotval([...notval,data.source.name]);
+                toast.show({description:'marked as not-interested',duration:500})
+            }
+        }}
+      />
+
+      {/* convert below and above searches into includes instead of filterwithlength comparison if it works */}
+
+      <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={val.filter((e)=>e==data.source.name).length > 0 ? "red.700" : 'blue.500'}
         icon={<Icon size="md" shadow={4} as={MaterialCommunityIcons} name="bookmark" color={ "white"} />}
         onPress={()=>{
           if(val.filter((e)=>e==data.source.name).length > 0){
                 let k=val.filter((e)=>e!=data.source.name)
                 set(k)
-                toast.show({description:'unsaved',duration:300})
+                toast.show({description:'unsaved',duration:500})
               }else{
+                //if any blocked src needs to be saved
+                if(notval.includes(data.source.name)){
+                  let k=notval.filter((e)=>e!=data.source.name)
+                setnotval(k)
+                }
                 set([...val,data.source.name]);
-                toast.show({description:'saved',duration:300})
+                toast.show({description:'saved as interested source',duration:500})
             }
         }}
       />
+
           </HStack>
         <Text >Author : {data.author}</Text>
         <Text >Published at : {data.publishedAt}</Text>

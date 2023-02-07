@@ -30,13 +30,18 @@ import {
     default:['general']
     // default:[]
   })
-
+  
   const savedSources=atom({
     key:'savedSources',
     // default:['No sources saved yet']
     default:[]
   })
-
+  
+  //notinterestedsrc
+  const notInterestedSources=atom({
+    key:'notInterestedSources',
+    default:[]
+  })
  const orderOfStartOptions=atom({
   //if it is false then both buttons and chckboxes will be displayed
   //else only chckboxes will be displayed
@@ -64,5 +69,4 @@ import {
     default:1
   })
 
-  //notinterestedsrc
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources}
