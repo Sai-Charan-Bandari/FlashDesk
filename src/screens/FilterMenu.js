@@ -3,18 +3,18 @@ import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
-import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged} from '../Recoil/Atoms'
+import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, source} from '../Recoil/Atoms'
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
-const FilterMenu = ({type,setCategorizer,source,setSource,isOpenSearch,aListTemp}) => {
+const FilterMenu = ({type,setCategorizer,src,setSource,isOpenSearch,aListTemp}) => {
     const sourcesArr = useRecoilValue(savedSources)
     const savedCatArr = useRecoilValue(savedCategories)
     const loggedIn = useRecoilValue(logged)
     const [alist,setAlist] = useRecoilState(loadedNewsArticles)
     
 
-    let [highlight,setHighlight]=useState(type ? type : source)
+    let [highlight,setHighlight]=useState(type ? type : src)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
     // let [isOpenSearch,setIsOpenSearch]=useState(false)
@@ -53,17 +53,26 @@ const FilterMenu = ({type,setCategorizer,source,setSource,isOpenSearch,aListTemp
         <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2' bg={'gray.200'}>
             <Button onPress={()=>setToggle(!toggle)} alignItems={'center'} bg='white' _text={{fontWeight:'bold',color:'black'}}>Sources</Button>
             {
-            sourcesArr.length==1
+            sourcesArr.length==0
             ?
-            <Button m='2' p='2' rounded={25} bgColor={'red.800'} 
+            <Box m='2' p='2' rounded={25} bgColor={'red.800'} 
             onPress={()=>setToggle(!toggle)}>
-                <Center  _text={{color:'white',fontWeight:'bold'}}>{sourcesArr[0]}</Center>
-              </Button>
-
+                <Center  _text={{color:'white',fontWeight:'bold'}}>No sources saved yet</Center>
+              </Box>
             :
             sourcesArr.map((ele,i)=>
-            <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}}
-            onPress={()=>{setHighlight(ele);setSource(ele)}}>
+            <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
+            onPress={()=>{
+              setHighlight(ele);
+              //clicking on the source will not render news if the global state src was previously set ot this source name only
+              //so useEffect of src will not be called upon using setState
+              //so i had to change the source name even though the prev src value was same.
+              // if(src==ele)
+              // setSource("")
+              // else
+              setSource(ele)
+            
+            }}>
                 {ele}
                 </Button>
             )}

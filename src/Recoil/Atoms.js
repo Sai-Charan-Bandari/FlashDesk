@@ -20,6 +20,11 @@ import {
     key:'category',
     default:'general'
   })
+  // denotes current selected Source
+  const source=atom({
+    key:'source',
+    default:''
+  })
   const savedCategories=atom({
     key:'savedCategories',
     default:['general']
@@ -60,4 +65,4 @@ import {
   })
 
   //notinterestedsrc
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source}

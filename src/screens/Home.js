@@ -5,7 +5,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
 import { useRecoilState } from 'recoil'
-import { loadedNewsArticles,category } from '../Recoil/Atoms'
+import { loadedNewsArticles,category,source } from '../Recoil/Atoms'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -17,7 +17,7 @@ const Home=({navigation})=>{
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useRecoilState(loadedNewsArticles)
   const [categorizer,setCategorizer]=useRecoilState(category)
-  const [source,setSource]=useState('')
+  const [src,setSource]=useRecoilState(source)
   let [isOpenSearch,setIsOpenSearch]=useState(false)
   // temporary state variable ...this value stores all the content of the original alist
     //when we search something then the alist(loadedNewsArticles) will be updated to specific articles only
@@ -35,28 +35,43 @@ const Home=({navigation})=>{
     let d1=await fetch(isCategory ? "https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json"
      : "https://saurav.tech/NewsAPI/top-headlines/category/general/in.json" )
     let d2=await d1.json()
-    setAlist(d2.articles)
+    let d3=d2.articles
+      if(isCategory==false){
+        d3=d2.articles.filter((e)=>e.source.name==src)
+       if(d3.length == 0)
+       d3=d2.articles
+      }
+
+    setAlist(d3)
     setIsLoading(false)
     }catch(e){
       console.log('error in fetching data')
     }
   }
   useEffect(()=>{
-    if(categorizer)
-    getData(true)
+    console.log('called cat :',categorizer)
+    if(categorizer){
+      if(src!='')
+      setSource('')
+      getData(true)
+    }
   },[categorizer])
 
   useEffect(()=>{
-    if(source)
-    getData(false)
-  },[source])
+    console.log('called src :',src)
+    if(src){
+      if(categorizer!='')
+      setCategorizer('')      
+      getData(false)
+    }
+  },[src])
 
   useEffect(()=>{
     console.log('home alist : ',alist.length)
   },[alist])
   return(
     <Box>
-      <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource} isOpenSearch={isOpenSearch} aListTemp={aListTemp} />
+      <FilterMenu type={categorizer} setCategorizer={setCategorizer} src={src} setSource={setSource} isOpenSearch={isOpenSearch} aListTemp={aListTemp} />
      
       {isLoading
       ?
