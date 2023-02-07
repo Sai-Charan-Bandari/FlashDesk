@@ -19,7 +19,7 @@ let revertOrder=useRecoilValue(orderOfStartOptions)
       ?
 <Center m='5'>
   <Options2 />
-  <Options1 />
+  {/* <Options1 /> */}
       </Center>
       :
 <Center m='5'>

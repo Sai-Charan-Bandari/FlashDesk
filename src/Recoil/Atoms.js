@@ -33,6 +33,8 @@ import {
   })
 
  const orderOfStartOptions=atom({
+  //if it is false then both buttons and chckboxes will be displayed
+  //else only chckboxes will be displayed
   key:'orderOfStartOptions',
   default:false
  })
