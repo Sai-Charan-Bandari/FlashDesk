@@ -7,27 +7,18 @@ import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged} from 
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
-const FilterMenu = ({type,setCategorizer,source,setSource}) => {
-  const selectedTabIs =useRecoilValue(tabIndex)
+const FilterMenu = ({type,setCategorizer,source,setSource,isOpenSearch,aListTemp}) => {
     const sourcesArr = useRecoilValue(savedSources)
     const savedCatArr = useRecoilValue(savedCategories)
     const loggedIn = useRecoilValue(logged)
-    const [aList,setAlist] = useRecoilState(loadedNewsArticles)
-    // temporary state variable ...this value stores all the content of the original aList
-    //when we search something then the aList(loadedNewsArticles) will be updated to specific articles only
-    //when we want to retreive the original list then we can get it back using this temporary aList
-    //this aListTemp will be initialized only when user clicks on search-fab button
-    const [aListTemp,setAlistTemp]=useState()
-    useEffect(()=>{
-      //called when it is created/initialized
-      if(aListTemp)
-        console.log('aListTemp : ',aListTemp.length)
-    },[aListTemp])
+    const [alist,setAlist] = useRecoilState(loadedNewsArticles)
+    
 
     let [highlight,setHighlight]=useState(type ? type : source)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
-    let [isOpenSearch,setIsOpenSearch]=useState(false)
+    // let [isOpenSearch,setIsOpenSearch]=useState(false)
+    
     
   return (
     <Box height={20}>
@@ -81,21 +72,15 @@ const FilterMenu = ({type,setCategorizer,source,setSource}) => {
         
 {/* SEARCH BAR */}
 {/* the fab must be visible only in Home page */}
-{selectedTabIs==1
+{/* {selectedTabIs==1
 &&
   <Fab position="absolute" bg={'red.700'} size="md" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
 onPress={()=>{
-    if(isOpenSearch){ //closing search bar
-        setSearchVal('')
-        setAlist(aListTemp) //putting back original data
-        // setCategorizer('general')
-    }else{ //opening searchbar
-        setAlistTemp(aList) //placing the main data (data of a particular category) into the temporary cache state
-    }
+  
     setIsOpenSearch(!isOpenSearch)
     }} 
 />
-}
+} */}
 
 {isOpenSearch &&
         <Box bg={'red.700'} p='3' height={'90%'} mb='2' _text={{fontWeight:'bold',fontSize:'lg',color:'white'}} justifyContent='center'>
@@ -108,7 +93,7 @@ onPress={()=>{
       }} 
       onPress={()=>{
         if(searchVal!=''){
-          let k=aList.filter((e)=>(e.title.includes(searchVal) || e.description.includes(searchVal)))
+          let k=alist.filter((e)=>(e.title.includes(searchVal) || e.description.includes(searchVal)))
           setAlist(k)
         }else{
           setAlist(aListTemp) //putting back original data

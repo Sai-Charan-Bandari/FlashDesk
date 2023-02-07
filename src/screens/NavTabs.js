@@ -5,7 +5,7 @@ import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HeaderMenu from './HeaderMenu';
 import { logged, tabIndex } from '../Recoil/Atoms';
 import { useRecoilValue,useRecoilState} from 'recoil';
-import Home from './Home';
+import HomeNavContainer from './HomeNavContainer';
 import StartOptions from './StartOptions';
 import SubNavContainer from './SubNavContainer';
 import Intro from './Intro';
@@ -47,7 +47,7 @@ setRoutes([
   SceneMap(
     {
       first: StartOptions,
-      second: Home,
+      second: HomeNavContainer,
       third:SubNavContainer,
       fourth:Intro
     })

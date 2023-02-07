@@ -12,18 +12,28 @@ let BASE_URL = "https://saurav.tech/NewsAPI/"
 // top_headlines_api = BASE_URL+"/top-headlines/category/<category>/<country_code>.json"
 // everything_api = BASE_URL+"/everything/<source_id>.json"
 
-const Home=({navigation,route})=>{
+const Home=({navigation})=>{
   
   const [isLoading,setIsLoading]=useState(true)
   const [alist,setAlist]=useRecoilState(loadedNewsArticles)
   const [categorizer,setCategorizer]=useRecoilState(category)
   const [source,setSource]=useState('')
-
+  let [isOpenSearch,setIsOpenSearch]=useState(false)
+  // temporary state variable ...this value stores all the content of the original alist
+    //when we search something then the alist(loadedNewsArticles) will be updated to specific articles only
+    //when we want to retreive the original list then we can get it back using this temporary alist
+    //this aListTemp will be initialized only when user clicks on search-fab button
+    const [aListTemp,setAlistTemp]=useState()
+    useEffect(()=>{
+      //called when it is created/initialized
+      if(aListTemp)
+        console.log('aListTemp : ',aListTemp.length)
+    },[aListTemp])
 
   const getData=async(isCategory=true)=>{
     try{
     let d1=await fetch(isCategory ? "https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json"
-     : "https://saurav.tech/NewsAPI/everything/"+source.toLowerCase()+".json" )
+     : "https://saurav.tech/NewsAPI/top-headlines/category/general/in.json" )
     let d2=await d1.json()
     setAlist(d2.articles)
     setIsLoading(false)
@@ -46,7 +56,7 @@ const Home=({navigation,route})=>{
   },[alist])
   return(
     <Box>
-      <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource}/>
+      <FilterMenu type={categorizer} setCategorizer={setCategorizer} source={source} setSource={setSource} isOpenSearch={isOpenSearch} aListTemp={aListTemp} />
      
       {isLoading
       ?
@@ -55,7 +65,10 @@ const Home=({navigation,route})=>{
       <FlatList style={{height:'90%'}} data={alist} renderItem={({item})=>{
         // console.log("the item is ",item)
         return(
-          <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:item})}>
+          <TouchableOpacity onPress={()=>{
+          navigation.navigate('ArticlePage',{data:item})
+          }
+          }>
             <NewsCard data={item} saved={false}/>   
           </TouchableOpacity>
           )
@@ -66,6 +79,19 @@ const Home=({navigation,route})=>{
         { isLoading &&
       <Button disabled>'loading news...':'next'</Button>
         }
+
+<IconButton bottom={7} right={7} rounded={50} position="absolute" bg={'red.700'} size="lg" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
+onPress={()=>{
+    if(isOpenSearch){ //closing search bar
+        // setSearchVal('')
+        setAlist(aListTemp) //putting back original data
+        // setCategorizer('general')
+    }else{ //opening searchbar
+        setAlistTemp(alist) //placing the main data (data of a particular category) into the temporary cache state
+    }
+    setIsOpenSearch(!isOpenSearch)
+    }} 
+/>
     </Box>
   )
 }

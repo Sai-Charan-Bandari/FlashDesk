@@ -28,8 +28,8 @@ import {
 
   const savedSources=atom({
     key:'savedSources',
-    default:['No sources saved yet']
-    // default:['No sources saved yet','science','fiction']
+    // default:['No sources saved yet']
+    default:[]
   })
 
  const orderOfStartOptions=atom({

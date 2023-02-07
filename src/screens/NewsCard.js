@@ -10,6 +10,7 @@ const NewsCard = ({data,saved}) => {
 let [val,set]=useRecoilState(savedNewsArticles)
 let isloadImg = useRecoilValue(loadImg)
 let toast=useToast()
+
 useEffect(()=>{
     // val.forEach((ele)=>
     // console.log(ele.title)
