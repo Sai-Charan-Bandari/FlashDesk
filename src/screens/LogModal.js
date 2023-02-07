@@ -30,14 +30,14 @@ const LogModal = ({setShowModal}) => {
       <TouchableOpacity style={{width:'100%',height:'100%',backgroundColor:'#00000080'}}  onPress={()=>setShowModal(false)} >
         {modalState==0
         &&
-        <Box width='200' rounded={10} bg={'white'} height='200' m='auto' p='5'>
+        <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
             {loggedIn
             ?
             <Center>
-            <Text>
+            <Box width={'100%'} mb='3' bg='red.700' _text={{color:'white',margin:'auto'}} p='2' rounded={4}>
                 Logged in as {userName}
-            </Text>
-            <Button onPress={()=>{
+            </Box>
+            <Button width={'100%'} onPress={()=>{
                 signOut(auth).then(() => {
                    console.log("Sign-out successful.")
                   }).catch((error) => {
@@ -52,18 +52,13 @@ const LogModal = ({setShowModal}) => {
             </Center>
             :
             <Center>
-            <Text>
-                not Logged in 
-            </Text>
-            <Button onPress={()=>{
-                setModalState(1)
-                
-            }}>
+            <Box width={'100%'} bg='red.700' _text={{color:'white',margin:'auto'}} p='2' rounded={4}>
+                Not Logged in 
+            </Box>
+            <Button my='3' width={'100%'} onPress={()=>{setModalState(1)}}>
                 Log In
             </Button>
-            <Button onPress={()=>{
-                setModalState(2)
-            }}>
+            <Button width={'100%'} onPress={()=>{setModalState(2)}}>
                 Sign Up
             </Button>
             </Center>
@@ -71,12 +66,14 @@ const LogModal = ({setShowModal}) => {
         </Box>
         }
 
+        {/* LOGIN */}
+
         {modalState==1
         &&
-        <Box width='200' rounded={10} bg={'white'} height='200' m='auto' p='5'>
+        <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
         <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)}></Input>
         <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)}></Input>
-        <Button onPress={()=>{
+        <Button width={'100%'}  onPress={()=>{
             signInWithEmailAndPassword(auth,email,password).then(async(userCredential)=> {
                 // first chck if user signed into firebase successfully or not
                 const user = userCredential.user;
@@ -103,17 +100,19 @@ const LogModal = ({setShowModal}) => {
                        setShowModal(false)
               })
               .catch((error) => {
-                const errorCode = error.code;
-                const errorMessage = error.message;
+                alert("error logging in")
               })
         }}>Log in</Button>
         </Box>
 }
+
+        {/* SIGNUP */}
+
         {modalState==2 &&
-        <Box width='200' rounded={10} bg={'white'} height='200' m='auto' p='5'>
+        <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
         <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)}></Input>
         <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)}></Input>
-        <Button onPress={()=>{
+        <Button width={'100%'}  onPress={()=>{
             createUserWithEmailAndPassword(auth,email,password)
             .then(async(userCredential) => {
               // Signed in 
@@ -135,10 +134,10 @@ const LogModal = ({setShowModal}) => {
                   }
                 })
                 .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.log("errr ",errorCode,errorMessage)
-                    // ..
+                    // const errorCode = error.code;
+                    // const errorMessage = error.message;
+                    // console.log("errr ",errorCode,errorMessage)
+                    alert("error signing up")
                 });
                  
         }}>Sign up</Button>
