@@ -91,14 +91,15 @@ const LogModal = ({setShowModal}) => {
                       setUserName(email.substring(0,email.length-10))
                          setLoggedIn(true)
                          setShowModal(false)
+                         //set loadImg set by the user
                         //  here take defaultCategory set by the user and setCategorizer to that value
+                        //set not interested categories
+                        //set saved categories
+                        //set saved sources
+                        //set saved articles
                   } catch (e) {
                       console.error("Error adding document: ", e);
                     }
-                //all chcks done..now we can set states
-                setUserName(email.substring(0,email.length-10))
-                       setLoggedIn(true)
-                       setShowModal(false)
               })
               .catch((error) => {
                 alert("error logging in")

@@ -2,13 +2,24 @@ import { View, Text, Linking,Share } from 'react-native'
 import React, { useEffect } from 'react'
 import { Box, Divider,HStack,IconButton,Image, ScrollView ,Icon,FavouriteIcon, Button,useToast} from 'native-base'
 import {AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { savedSources,notInterestedSources } from '../Recoil/Atoms'
-import { useRecoilState } from 'recoil'
+import { savedSources,notInterestedSources,fabVisible } from '../Recoil/Atoms'
+import { useRecoilState,useSetRecoilState } from 'recoil'
 
 
 const ArticlePage = ({route:{params:{data}},navigation}) => {
   const [val,set]=useRecoilState(savedSources)
   const [notval,setnotval]=useRecoilState(notInterestedSources)
+  const setShowFab=useSetRecoilState(fabVisible)
+
+  useEffect(()=>{
+    // on create
+    setShowFab(false)
+  },[])
+
+  useEffect(()=>{
+    // on destroy
+    return ()=>setShowFab(true)
+  },[])
 
     useEffect(()=>{
       console.log('notval : ',notval.length)

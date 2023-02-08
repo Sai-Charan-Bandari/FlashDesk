@@ -3,6 +3,11 @@ import {
     selector,
   } from 'recoil';
 
+  //it tells whether the search icon fab needs to be displayed or not
+  const fabVisible=atom({
+    key:'fabVisible',
+    default:true
+  })
   const loadedNewsArticles=atom({
     key:'loadedNewsArticles',
     default:[]
@@ -74,4 +79,4 @@ import {
     default:1
   })
 
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory,fabVisible}

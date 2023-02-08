@@ -1,7 +1,6 @@
 import { StyleSheet, Text, View,FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect ,useState} from 'react'
-import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton} from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
+import {Box, Center, Button, Spinner,} from 'native-base'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
 import { useRecoilState,useRecoilValue } from 'recoil'
@@ -23,17 +22,6 @@ const Home=({navigation})=>{
 
   const [categorizer,setCategorizer]=useRecoilState(category)
   const [src,setSource]=useRecoilState(source)
-  let [isOpenSearch,setIsOpenSearch]=useState(false)
-  // temporary state variable ...this value stores all the content of the original alist
-    //when we search something then the alist(loadedNewsArticles) will be updated to specific articles only
-    //when we want to retreive the original list then we can get it back using this temporary alist
-    //this aListTemp will be initialized only when user clicks on search-fab button
-    const [aListTemp,setAlistTemp]=useState()
-    useEffect(()=>{
-      //called when it is created/initialized
-      if(aListTemp)
-        console.log('aListTemp : ',aListTemp.length)
-    },[aListTemp])
 
   const getData=async(isCategory=true)=>{
     try{
@@ -82,7 +70,7 @@ const Home=({navigation})=>{
 
   return(
     <Box>
-      <FilterMenu type={categorizer} setCategorizer={setCategorizer} src={src} setSource={setSource} isOpenSearch={isOpenSearch} aListTemp={aListTemp} />
+      <FilterMenu type={categorizer} setCategorizer={setCategorizer} src={src} setSource={setSource}  />
      
       {isLoading
       ?
@@ -106,18 +94,6 @@ const Home=({navigation})=>{
       <Button disabled>'loading news...':'next'</Button>
         }
 
-<IconButton bottom={7} right={7} rounded={50} position="absolute" bg={'red.700'} size="lg" icon={<Icon color="white" name='search' as={MaterialIcons} size="md" />} 
-onPress={()=>{
-    if(isOpenSearch){ //closing search bar
-        // setSearchVal('')
-        setAlist(aListTemp) //putting back original data
-        // setCategorizer('general')
-    }else{ //opening searchbar
-        setAlistTemp(alist) //placing the main data (data of a particular category) into the temporary cache state
-    }
-    setIsOpenSearch(!isOpenSearch)
-    }} 
-/>
     </Box>
   )
 }
