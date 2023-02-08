@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
 import Profile from './Profile'
 import EditSavedSrc from './EditSavedSrc'
+import SavedNewsCards from './SavedNewsCards'
+
 
 //NOTE: THIS TAB IS VISIBLE ONLY IF LOGGED IS TRUE...
 //THE ABOVE LOGIC HAS BEEN IMPLEMENTED IN NAVTABS COMP..HENCE WE NEED NOT USE LOGGED AGAIN HERE
@@ -14,6 +16,7 @@ const SubNavContainer = () => {
         <Stack.Navigator initialRouteName='Profile' screenOptions={{headerShown:false}}>
             <Stack.Screen name='Profile' component={Profile}/>
             <Stack.Screen name='EditSavedSrc' component={EditSavedSrc}/>
+            <Stack.Screen name='SavedNewsCards' component={SavedNewsCards}/>
         </Stack.Navigator>
     </NavigationContainer>
   )

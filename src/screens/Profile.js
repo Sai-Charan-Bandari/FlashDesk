@@ -65,17 +65,11 @@ const Profile = ({navigation}) => {
         }
 
            {/* saved flashcards */}
-      {val.length<1
-      ? <Text>No FlashCards saved yet.</Text> 
-      : 
-      <Box>
-      <Text>Saved FlashCards</Text>
-        <FlatList data={val} renderItem={(ele)=>
-         <TouchableOpacity onPress={()=>navigation.navigate('ArticlePage',{data:ele.item})}>
-         <NewsCard data={ele.item} saved={true}/>   
-       </TouchableOpacity>
-        }/>
-        </Box>
+     <Text>{val.length<1 ? 'No FlashCards saved yet.' : 'Saved '+val.length+' FlashCards'}</Text> 
+      {val.length>=1 &&
+      <Button onPress={()=>{
+        navigation.navigate('SavedNewsCards')
+      }} bg='red.700' _text={{color:'white'}}>Checkout saved FlashCards</Button>
         }
 
   {/* saved authors */}

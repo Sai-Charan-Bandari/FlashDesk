@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
+import { AntDesign, MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
 import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, fabVisible,category} from '../Recoil/Atoms'
 import { useRecoilValue,useRecoilState } from 'recoil'
@@ -103,10 +103,20 @@ onPress={()=>{
 
 {isOpenSearch &&
         <Box bg={'red.700'} p='3' height={'90%'} mb='2' _text={{fontWeight:'bold',fontSize:'lg',color:'white'}} justifyContent='center'>
-        <Input value={searchVal} placeholder={categories[0]} bg="#fff" width="100%" height='100%' borderRadius={4} py={2} px={1} fontSize={14} 
+        <Input value={searchVal} placeholder={categorizer} bg="#fff" width="100%" height='100%' borderRadius={4} py={2} px={1} fontSize={14} 
       _focus={{borderColor: 'white'}} color='white'
       onChangeText={(txt)=>setSearchVal(txt)}
       InputLeftElement={<IconButton size='md' _icon={{
+        as: AntDesign,
+        name: "leftcircleo", color:"gray.400"
+      }} 
+      onPress={()=>{
+        setSearchVal('')
+        setAlist(aListTemp)
+        setIsOpenSearch(!isOpenSearch)
+      }}
+      />}
+      InputRightElement={<IconButton size='md' _icon={{
         as: MaterialIcons,
         name: "search",m:2 , color:"gray.400"
       }} 

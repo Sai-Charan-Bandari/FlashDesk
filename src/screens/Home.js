@@ -26,12 +26,11 @@ const Home=({navigation})=>{
   const getData=async()=>{
     try{
       //setting k,isCategory based on whether it is source or category
+      //by default we consider it as a category name
       let k=categorizer.toLowerCase() //default
       let isCategory=true //default
-      if(categories.includes(categorizer)){ //if the categorizer holds a category name
-          isCategory=true
-          k=categorizer.toLowerCase()
-      }else{ // if it holds a source name
+
+      if(!categories.includes(categorizer)){  // if it holds a source name
         isCategory=false
         k='general'
       }

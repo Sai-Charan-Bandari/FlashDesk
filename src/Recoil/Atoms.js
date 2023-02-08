@@ -10,6 +10,15 @@ import {
   })
   const loadedNewsArticles=atom({
     key:'loadedNewsArticles',
+    // default:{
+    //   general:[],
+    //   business:[],
+    //   science:[],
+    //   entertainment:[],
+    //   sports:[],
+    //   health:[],
+    //   technology:[],
+    // }
     default:[]
   })
   const savedNewsArticles=atom({
@@ -28,6 +37,7 @@ import {
   // denotes current selected Category
   //from 25th commit onwards there is no source atom (representing selected source)... it is identified by category only
   const category=atom({
+    //note: all category names stored here Start with capital letter except 'general'
     key:'category',
     default:'general'
   })
