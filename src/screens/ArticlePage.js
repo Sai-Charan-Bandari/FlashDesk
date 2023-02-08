@@ -64,10 +64,10 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
 
         {/*  */}
 
-        <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={notval.filter((e)=>e==data.source.name).length > 0 ? "red.700" : 'blue.500'}
+        <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={notval.includes(data.source.name) ? "red.700" : 'blue.500'}
         icon={<MaterialIcons name="not-interested" size={20} color="white" />}
         onPress={()=>{
-          if(notval.filter((e)=>e==data.source.name).length > 0){
+          if(notval.includes(data.source.name)){
                 let k=notval.filter((e)=>e!=data.source.name)
                 setnotval(k)
                 toast.show({description:'unmarked',duration:500})
@@ -83,12 +83,12 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
         }}
       />
 
-      {/* convert below and above searches into includes instead of filterwithlength comparison if it works */}
+      {/*    */}
 
-      <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={val.filter((e)=>e==data.source.name).length > 0 ? "red.700" : 'blue.500'}
+      <IconButton ml='auto' height={10} mr='2' mt='2'variant="solid" bgColor={val.includes(data.source.name) ? "red.700" : 'blue.500'}
         icon={<Icon size="md" shadow={4} as={MaterialCommunityIcons} name="bookmark" color={ "white"} />}
         onPress={()=>{
-          if(val.filter((e)=>e==data.source.name).length > 0){
+          if(val.includes(data.source.name)){
                 let k=val.filter((e)=>e!=data.source.name)
                 set(k)
                 toast.show({description:'unsaved',duration:500})

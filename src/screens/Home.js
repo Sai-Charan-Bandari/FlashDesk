@@ -26,14 +26,16 @@ const Home=({navigation})=>{
   const getData=async()=>{
     try{
       //setting k,isCategory based on whether it is source or category
-      let k,isCategory
-      if(categories.includes(categorizer)){
+      let k=categorizer.toLowerCase() //default
+      let isCategory=true //default
+      if(categories.includes(categorizer)){ //if the categorizer holds a category name
           isCategory=true
           k=categorizer.toLowerCase()
-      }else{
+      }else{ // if it holds a source name
         isCategory=false
         k='general'
       }
+      console.log("the val of k is : ",k)
     let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+k+"/in.json")
     let d2=await d1.json()
     let d3=d2.articles

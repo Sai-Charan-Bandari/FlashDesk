@@ -13,7 +13,7 @@ const OptionCard = ({cat,color,type}) => {
   return (
     <Button shadow={5} size={40}  _text={{fontSize:'18',fontWeight:'bold',color:'black'}} rounded='5' m='2' bg={color}
     onPress={()=>{
-      setCategory(cat.toLowerCase())
+      setCategory(cat)
       setIndex(1)
     }}
     >

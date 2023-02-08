@@ -10,7 +10,6 @@ const categories=['Business','Entertainment', 'Health',  'Science', 'Sports', 'T
 // const sourcesArr=['cnn','bbc-news','fox-news','reuter','vice-news','business-insider','bbc-sport','bloomberg','buzzfeed','cnbc','engadget','entertainment-weekly','espn','espn-cric-info']
 
 const StartOptions = () => {
-let setIndex=useSetRecoilState(tabIndex)
 let revertOrder=useRecoilValue(orderOfStartOptions)
 
   return (

@@ -3,7 +3,7 @@ import React,{useEffect, useState} from 'react'
 import {Box, Center,AddIcon,VStack, Button, Spinner, ScrollView,Input,Icon,IconButton,Slide,Fab} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { categories } from './StartOptions'
-import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, fabVisible} from '../Recoil/Atoms'
+import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, fabVisible,category} from '../Recoil/Atoms'
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
@@ -25,7 +25,7 @@ const FilterMenu = ({categorizer,setCategorizer}) => {
         console.log('aListTemp : ',aListTemp.length)
     },[aListTemp])
 
-    let [highlight,setHighlight]=useState(categorizer)
+    let [highlight,setHighlight]=useRecoilState(category)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
     let [isOpenSearch,setIsOpenSearch]=useState(false)
