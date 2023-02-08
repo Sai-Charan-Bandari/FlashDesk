@@ -4,7 +4,8 @@ import {Box, Center, Button, Spinner,} from 'native-base'
 import FilterMenu from './FilterMenu'
 import NewsCard from './NewsCard'
 import { useRecoilState,useRecoilValue } from 'recoil'
-import { loadedNewsArticles,category,source, notInterestedSources } from '../Recoil/Atoms'
+import { loadedNewsArticles,category,notInterestedSources } from '../Recoil/Atoms'
+import { categories } from './StartOptions'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -21,16 +22,23 @@ const Home=({navigation})=>{
   const blockedSrc=useRecoilValue(notInterestedSources)
 
   const [categorizer,setCategorizer]=useRecoilState(category)
-  const [src,setSource]=useRecoilState(source)
 
-  const getData=async(isCategory=true)=>{
+  const getData=async()=>{
     try{
-    let d1=await fetch(isCategory ? "https://saurav.tech/NewsAPI/top-headlines/category/"+categorizer.toLowerCase()+"/in.json"
-     : "https://saurav.tech/NewsAPI/top-headlines/category/general/in.json" )
+      //setting k,isCategory based on whether it is source or category
+      let k,isCategory
+      if(categories.includes(categorizer)){
+          isCategory=true
+          k=categorizer.toLowerCase()
+      }else{
+        isCategory=false
+        k='general'
+      }
+    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+k+"/in.json")
     let d2=await d1.json()
     let d3=d2.articles
       if(isCategory==false){ //saved source filtering
-        d3=d2.articles.filter((e)=>e.source.name==src)
+        d3=d2.articles.filter((e)=>e.source.name==categorizer)
        if(d3.length == 0)
        d3=d2.articles
       }else{ //blocked sources filtering
@@ -38,30 +46,19 @@ const Home=({navigation})=>{
           d3=d2.articles.filter((e)=>!blockedSrc.includes(e.source.name))
         }
       }
-
     setAlist(d3)
     setIsLoading(false)
     }catch(e){
       console.log('error in fetching data')
     }
   }
+
   useEffect(()=>{
     console.log('called cat :',categorizer)
     if(categorizer){
-      if(src!='')
-      setSource('')
-      getData(true)
+      getData()
     }
   },[categorizer])
-
-  useEffect(()=>{
-    console.log('called src :',src)
-    if(src){
-      if(categorizer!='')
-      setCategorizer('')      
-      getData(false)
-    }
-  },[src])
 
   useEffect(()=>{
     console.log('home alist : ',alist.length)
@@ -70,7 +67,7 @@ const Home=({navigation})=>{
 
   return(
     <Box>
-      <FilterMenu type={categorizer} setCategorizer={setCategorizer} src={src} setSource={setSource}  />
+      <FilterMenu categorizer={categorizer} setCategorizer={setCategorizer}   />
      
       {isLoading
       ?

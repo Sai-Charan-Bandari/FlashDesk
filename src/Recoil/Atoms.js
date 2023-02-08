@@ -26,15 +26,12 @@ import {
     default:''
   })
   // denotes current selected Category
+  //from 25th commit onwards there is no source atom (representing selected source)... it is identified by category only
   const category=atom({
     key:'category',
     default:'general'
   })
-  // denotes current selected Source
-  const source=atom({
-    key:'source',
-    default:''
-  })
+ 
   const savedCategories=atom({
     key:'savedCategories',
     default:['general']
@@ -79,4 +76,4 @@ import {
     default:1
   })
 
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory,fabVisible}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,notInterestedSources,defaultCategory,fabVisible}

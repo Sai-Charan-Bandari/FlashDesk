@@ -2,7 +2,6 @@ import { View, Text } from 'react-native'
 import React from 'react'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { NavigationContainer } from '@react-navigation/native'
-import StartOptions from './StartOptions'
 import Profile from './Profile'
 import EditSavedSrc from './EditSavedSrc'
 
@@ -13,7 +12,6 @@ const SubNavContainer = () => {
   return (
     <NavigationContainer>
         <Stack.Navigator initialRouteName='Profile' screenOptions={{headerShown:false}}>
-            {/* <Stack.Screen name='StartOptions' component={StartOptions}/> */}
             <Stack.Screen name='Profile' component={Profile}/>
             <Stack.Screen name='EditSavedSrc' component={EditSavedSrc}/>
         </Stack.Navigator>

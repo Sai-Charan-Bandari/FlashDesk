@@ -7,7 +7,7 @@ import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, fabVi
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
-const FilterMenu = ({type,setCategorizer,src,setSource}) => {
+const FilterMenu = ({categorizer,setCategorizer}) => {
   const showFab =useRecoilValue(fabVisible)
   const selectedTabIs =useRecoilValue(tabIndex)
     const sourcesArr = useRecoilValue(savedSources)
@@ -25,7 +25,7 @@ const FilterMenu = ({type,setCategorizer,src,setSource}) => {
         console.log('aListTemp : ',aListTemp.length)
     },[aListTemp])
 
-    let [highlight,setHighlight]=useState(type ? type : src)
+    let [highlight,setHighlight]=useState(categorizer)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
     let [isOpenSearch,setIsOpenSearch]=useState(false)
@@ -75,14 +75,7 @@ const FilterMenu = ({type,setCategorizer,src,setSource}) => {
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{
               setHighlight(ele);
-              //clicking on the source will not render news if the global state src was previously set ot this source name only
-              //so useEffect of src will not be called upon using setState
-              //so i had to change the source name even though the prev src value was same.
-              // if(src==ele)
-              // setSource("")
-              // else
-              setSource(ele)
-            
+              setCategorizer(ele)          
             }}>
                 {ele}
                 </Button>
