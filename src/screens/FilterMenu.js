@@ -44,14 +44,14 @@ const FilterMenu = () => {
               // if user is logged in but he has not saved any categories except general then show all categories
             loggedIn==false || savedCatArr.length==1
             ?
-            [...categories,'general'].map((ele,i)=>
+            categories.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{setHighlight(ele)}}>
                 {ele}
                 </Button>
             )
             :
-            [...savedCatArr,'general'].map((ele,i)=>
+            savedCatArr.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{setHighlight(ele)}}>
                 {ele}
@@ -72,7 +72,7 @@ const FilterMenu = () => {
                 <Center  _text={{color:'white',fontWeight:'bold'}}>No sources saved yet</Center>
               </Box>
             :
-            [...sourcesArr,'general'].map((ele,i)=>
+            sourcesArr.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{
               setHighlight(ele);        

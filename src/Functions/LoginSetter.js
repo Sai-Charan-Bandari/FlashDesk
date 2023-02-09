@@ -1,13 +1,6 @@
 import { useSetRecoilState } from 'recoil'
 import {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
 
-//takes userData
-function LoginSetter({savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory}){
-    setLoadImg(loadImg)
-    setDefaultCategory(defaultCategory)
-    setSavedCategories(savedCategories)
-}
-
 //importer creates setState funcs using atoms and passes it to LoginSetter which
     let setSavedNewsArticles=useSetRecoilState(savedNewsArticles)
     let setSavedSources=useSetRecoilState(savedSources)
@@ -16,3 +9,12 @@ function LoginSetter({savedNewsArticles,savedSources,loadImg,category,logged,sav
     let setNotInterestedSources=useSetRecoilState(notInterestedSources)
     let setDefaultCategory=useSetRecoilState(defaultCategory)
 
+    //takes userData
+function loginSetter(dataObj){
+   const {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory}=dataObj
+    setLoadImg(loadImg)
+    setDefaultCategory(defaultCategory)
+    setSavedCategories(savedCategories)
+}
+
+export default loginSetter

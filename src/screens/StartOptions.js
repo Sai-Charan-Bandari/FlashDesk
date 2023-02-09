@@ -16,7 +16,7 @@ let revertOrder=useRecoilValue(orderOfStartOptions)
     <ScrollView>
       {revertOrder
       ?
-<Center m='5'>
+<Center >
   <Options2 />
   {/* <Options1 /> */}
       </Center>

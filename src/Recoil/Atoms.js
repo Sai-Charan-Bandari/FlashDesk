@@ -68,14 +68,14 @@ import {
 
   const logged=atom({
     key:'logged',
-    default:true
+    default:false
     // make sure to set default to false... befroe firebase auth
   })
 
   //change this atom to userDetails later
   const username=atom({
     key:'username',
-    default:'Charan'
+    default:'NULL'
     // default:'NULL'
   })
 

@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View ,Modal} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Center, Input} from 'native-base'
-import {logged, username,tabIndex,orderOfStartOptions} from '../Recoil/Atoms'
+import {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
 import { useRecoilState,useSetRecoilState } from 'recoil'
 import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut} from "firebase/auth";
 import { getFirestore,collection, setDoc, doc, getDoc } from "firebase/firestore";
@@ -10,6 +10,16 @@ import { async } from '@firebase/util'
 
 
 const LogModal = ({setShowModal}) => {
+
+  let setSavedNewsArticles=useSetRecoilState(savedNewsArticles)
+  let setSavedSources=useSetRecoilState(savedSources)
+  let setLoadImg=useSetRecoilState(loadImg)
+  let setSavedCategories=useSetRecoilState(savedCategories)
+  let setNotInterestedSources=useSetRecoilState(notInterestedSources)
+  let setDefaultCategory=useSetRecoilState(defaultCategory)
+
+  let [categorizer,setCategorizer]=useRecoilState(category)
+
     const auth=getAuth(app)
     const db=getFirestore(app)
     const [loggedIn,setLoggedIn]=useRecoilState(logged)
@@ -83,22 +93,42 @@ const LogModal = ({setShowModal}) => {
                       const docSnap = await getDoc(docRef);
 
                             if (docSnap.exists()) {
-                            console.log("Document data:", docSnap.data());
+                              console.log("docsnap1 : ", docSnap.data());
+                              try{
+                              const docRef2=doc(db,"UsersSavedData",user.uid)
+                              const docSnap2 = await getDoc(docRef2)
+                              if(docSnap2.exists()){
+                                setUserName(email.substring(0,email.length-10))
+                                   setLoggedIn(true)
+                                   setShowModal(false)
+                                   let dataObj=docSnap2.data()
+                                   setLoadImg(dataObj.loadImg)
+                                   setNotInterestedSources(dataObj.notInterestedSources)
+                                   setSavedCategories(dataObj.savedCategories)
+                                   setSavedSources(dataObj.savedSources)
+                                   //setting defaultcat maynot be required
+                                   setDefaultCategory(dataObj.defaultCategory)
+                                   //setSavedArticles
+                                   setCategorizer(dataObj.defaultCategory)
+                                  console.log("docsnap2 : ",dataObj)
+                              }
+                              }catch (e) {
+                                console.error("Error adding document2: ", e);
+                              }
                             } else {
                              // doc.data() will be undefined in this case
                             console.log("No such document!");
                             }
-                      setUserName(email.substring(0,email.length-10))
-                         setLoggedIn(true)
-                         setShowModal(false)
+
+                            
                          //set loadImg set by the user
                         //  here take defaultCategory set by the user and setCategorizer to that value
                         //set not interested categories
                         //set saved categories
                         //set saved sources
-                        //set saved articles
+                        //fetch saved articles from general using their titles (if not found,skip) and then set saved articles
                   } catch (e) {
-                      console.error("Error adding document: ", e);
+                      console.error("Error adding document1: ", e);
                     }
               })
               .catch((error) => {
@@ -126,13 +156,26 @@ const LogModal = ({setShowModal}) => {
                       password: password,
                       username:email.substring(0,email.length-10)
                     });
-                    setUserName(email.substring(0,email.length-10))
-                       setLoggedIn(true)
-                       setShowModal(false)
-                       setRevertOrder(true)
-                        setIndex(0)
+                    console.log("created user")
+                    try{
+                      const docRef2 = await setDoc(doc(db, "UsersSavedData",user.uid), {
+                        defaultCategory:'general',
+                        loadImg: true,
+                        notInterestedSources:[],
+                        savedArticles:[],
+                        savedCategories:[],
+                        savedSources:[]
+                      });
+                      setUserName(email.substring(0,email.length-10))
+                         setLoggedIn(true)
+                         setShowModal(false)
+                         setRevertOrder(true)
+                          setIndex(0)
+                    }catch(e){
+                      console.log("error adding doc2:",e)
+                    }
                 } catch (e) {
-                    console.error("Error adding document: ", e);
+                    console.error("Error adding doc1: ", e);
                   }
                 })
                 .catch((error) => {
