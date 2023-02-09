@@ -11,12 +11,6 @@ let [val,set]=useRecoilState(savedNewsArticles)
 let isloadImg = useRecoilValue(loadImg)
 let toast=useToast()
 
-useEffect(()=>{
-    // val.forEach((ele)=>
-    // console.log(ele.title)
-    // )
-    console.log('saved news articles : ',val.length)
-},[val])
 
   return (
     <Box my='5' rounded={10} mx='2' shadow='5' bg='white' p='3' >

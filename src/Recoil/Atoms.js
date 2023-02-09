@@ -10,16 +10,16 @@ import {
   })
   const loadedNewsArticles=atom({
     key:'loadedNewsArticles',
-    // default:{
-    //   general:[],
-    //   business:[],
-    //   science:[],
-    //   entertainment:[],
-    //   sports:[],
-    //   health:[],
-    //   technology:[],
-    // }
-    default:[]
+    default:{
+      general:[],
+      business:[],
+      science:[],
+      entertainment:[],
+      sports:[],
+      health:[],
+      technology:[],
+    }
+    // default:[]
   })
   const savedNewsArticles=atom({
     key:'savedNewsArticles',

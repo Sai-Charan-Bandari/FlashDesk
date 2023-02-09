@@ -2,13 +2,14 @@ import { View, Text, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Center, Flex, Heading, HStack, ScrollView,  VStack ,IconButton,Icon, SimpleGrid, Square} from 'native-base'
 import { AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { savedSources,notInterestedSources } from '../Recoil/Atoms'
-import { useRecoilState } from 'recoil'
+import { savedSources,notInterestedSources,loadedNewsArticles } from '../Recoil/Atoms'
+import { useRecoilState ,useSetRecoilState} from 'recoil'
 
 // This comp is used to display both saved and not interested src
 const EditSavedSrc = ({navigation,route:{params:{type}}}) => {
   let [savedSrc,setSavedSrc]=useRecoilState(savedSources)
   let [notSrc,setNotSrc]=useRecoilState(notInterestedSources)
+  const setNewsObj=useSetRecoilState(loadedNewsArticles)
 
   if(type){ //saved src
   return (
@@ -65,6 +66,16 @@ const EditSavedSrc = ({navigation,route:{params:{type}}}) => {
             onPress={()=>{
                     let k=notSrc.filter((e)=>e!=item)
                     setNotSrc(k)
+                    //resetting newsObj to default
+                setNewsObj({
+                  general:[],
+                  business:[],
+                  science:[],
+                  entertainment:[],
+                  sports:[],
+                  health:[],
+                  technology:[],
+                })
             }}
           />
               </Square>

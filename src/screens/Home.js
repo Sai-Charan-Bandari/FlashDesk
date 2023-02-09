@@ -15,39 +15,34 @@ let BASE_URL = "https://saurav.tech/NewsAPI/"
 const Home=({navigation})=>{
   
   const [isLoading,setIsLoading]=useState(true)
-  const [alist,setAlist]=useRecoilState(loadedNewsArticles)
+  const [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
   
   //for each category fetch we need to filter the data with this blocked sources arr
   //filtering is not required for saved source search
   const blockedSrc=useRecoilValue(notInterestedSources)
 
-  const [categorizer,setCategorizer]=useRecoilState(category)
+  const categorizer=useRecoilValue(category)
 
   const getData=async()=>{
-    try{
-      //setting k,isCategory based on whether it is source or category
-      //by default we consider it as a category name
-      let k=categorizer.toLowerCase() //default
-      let isCategory=true //default
+    //it sure that k is a category name but not source name
+    let k=categorizer.toLowerCase() //default
 
-      if(!categories.includes(categorizer)){  // if it holds a source name
-        isCategory=false
-        k='general'
+    console.log("the value of k is : ",k)
+    
+    try{
+      let d3,d4 //d3 will store the final array to be set to alist //d4 will be duplicate of unfiltered d3
+      let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+k+"/in.json")
+      let d2=await d1.json()
+      d3=d2.articles
+      console.log("fetched")
+    //duplicating unfiltered d3
+    d4=d3
+
+      if(blockedSrc.length>0){
+        d3=d4.filter((e)=>!blockedSrc.includes(e.source.name))
       }
-      console.log("the val of k is : ",k)
-    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+k+"/in.json")
-    let d2=await d1.json()
-    let d3=d2.articles
-      if(isCategory==false){ //saved source filtering
-        d3=d2.articles.filter((e)=>e.source.name==categorizer)
-       if(d3.length == 0)
-       d3=d2.articles
-      }else{ //blocked sources filtering
-        if(blockedSrc.length>0){
-          d3=d2.articles.filter((e)=>!blockedSrc.includes(e.source.name))
-        }
-      }
-    setAlist(d3)
+    
+    setNewsObj({...newsObj,[k]:d3})
     setIsLoading(false)
     }catch(e){
       console.log('error in fetching data')
@@ -56,25 +51,26 @@ const Home=({navigation})=>{
 
   useEffect(()=>{
     console.log('called cat :',categorizer)
-    if(categorizer){
+    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
       getData()
     }
   },[categorizer])
-
   useEffect(()=>{
-    console.log('home alist : ',alist.length)
-  },[alist])
-
+    console.log('newsObj updated')
+    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
+      getData()
+    }
+  },[newsObj])
 
   return(
     <Box>
-      <FilterMenu categorizer={categorizer} setCategorizer={setCategorizer}   />
+      <FilterMenu />
      
       {isLoading
       ?
       <Spinner size={'lg'} />
       :
-      <FlatList style={{height:'90%'}} data={alist} renderItem={({item})=>{
+      <FlatList style={{height:'90%'}} data={newsObj[categorizer.toLowerCase()]} renderItem={({item})=>{
         // console.log("the item is ",item)
         return(
           <TouchableOpacity onPress={()=>{
@@ -89,7 +85,7 @@ const Home=({navigation})=>{
       }
       
         { isLoading &&
-      <Button disabled>'loading news...':'next'</Button>
+      <Button disabled>loading news...</Button>
         }
 
     </Box>

@@ -10,6 +10,7 @@ const Intro = () => {
       <Text>Github : </Text>
       <Text>Features of this app : </Text>
       <Text>Why create an account ? : </Text>
+      <Text>Tutorial : </Text>
     </View>
   )
 }

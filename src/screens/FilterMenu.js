@@ -7,13 +7,15 @@ import { savedSources,loadedNewsArticles,tabIndex ,savedCategories,logged, fabVi
 import { useRecoilValue,useRecoilState } from 'recoil'
 // shows different categories and select a specific category
 
-const FilterMenu = ({categorizer,setCategorizer}) => {
+const FilterMenu = () => {
   const showFab =useRecoilValue(fabVisible)
   const selectedTabIs =useRecoilValue(tabIndex)
     const sourcesArr = useRecoilValue(savedSources)
     const savedCatArr = useRecoilValue(savedCategories)
     const loggedIn = useRecoilValue(logged)
-    const [alist,setAlist] = useRecoilState(loadedNewsArticles)
+    let [highlight,setHighlight]=useRecoilState(category)
+    //alist will be replaced with newObj[category]
+    const [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
     // temporary state variable ...this value stores all the content of the original alist
       //when we search something then the alist(loadedNewsArticles) will be updated to specific articles only
       //when we want to retreive the original list then we can get it back using this temporary alist
@@ -25,7 +27,6 @@ const FilterMenu = ({categorizer,setCategorizer}) => {
         console.log('aListTemp : ',aListTemp.length)
     },[aListTemp])
 
-    let [highlight,setHighlight]=useRecoilState(category)
     let [toggle,setToggle]=useState(true)
     let [searchVal,setSearchVal]=useState('')
     let [isOpenSearch,setIsOpenSearch]=useState(false)
@@ -43,16 +44,16 @@ const FilterMenu = ({categorizer,setCategorizer}) => {
               // if user is logged in but he has not saved any categories except general then show all categories
             loggedIn==false || savedCatArr.length==1
             ?
-            categories.map((ele,i)=>
+            [...categories,'general'].map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
-            onPress={()=>{setHighlight(ele);setCategorizer(ele)}}>
+            onPress={()=>{setHighlight(ele)}}>
                 {ele}
                 </Button>
             )
             :
-            savedCatArr.map((ele,i)=>
+            [...savedCatArr,'general'].map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
-            onPress={()=>{setHighlight(ele);setCategorizer(ele)}}>
+            onPress={()=>{setHighlight(ele)}}>
                 {ele}
                 </Button>
             )
@@ -71,11 +72,10 @@ const FilterMenu = ({categorizer,setCategorizer}) => {
                 <Center  _text={{color:'white',fontWeight:'bold'}}>No sources saved yet</Center>
               </Box>
             :
-            sourcesArr.map((ele,i)=>
+            [...sourcesArr,'general'].map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
             onPress={()=>{
-              setHighlight(ele);
-              setCategorizer(ele)          
+              setHighlight(ele);        
             }}>
                 {ele}
                 </Button>
@@ -91,10 +91,10 @@ const FilterMenu = ({categorizer,setCategorizer}) => {
 onPress={()=>{
     if(isOpenSearch){ //closing search bar
         setSearchVal('')
-        setAlist(aListTemp) //putting back original data
-        // setCategorizer('general')
+        setNewsObj({...newsObj,[highlight.toLowerCase()]:aListTemp}) //putting back original data into the category key of newsObj
+        // setHighlight('general')
     }else{ //opening searchbar
-        setAlistTemp(alist) //placing the main data (data of a particular category) into the temporary cache state
+        setAlistTemp(newsObj[highlight.toLowerCase()]) //placing the main data (data of a particular category) into the temporary cache state
     }
     setIsOpenSearch(!isOpenSearch)
     }} 
@@ -103,7 +103,7 @@ onPress={()=>{
 
 {isOpenSearch &&
         <Box bg={'red.700'} p='3' height={'90%'} mb='2' _text={{fontWeight:'bold',fontSize:'lg',color:'white'}} justifyContent='center'>
-        <Input value={searchVal} placeholder={categorizer} bg="#fff" width="100%" height='100%' borderRadius={4} py={2} px={1} fontSize={14} 
+        <Input value={searchVal} placeholder={highlight} bg="#fff" width="100%" height='100%' borderRadius={4} py={2} px={1} fontSize={14} 
       _focus={{borderColor: 'white'}} color='white'
       onChangeText={(txt)=>setSearchVal(txt)}
       InputLeftElement={<IconButton size='md' _icon={{
@@ -112,7 +112,7 @@ onPress={()=>{
       }} 
       onPress={()=>{
         setSearchVal('')
-        setAlist(aListTemp)
+        setNewsObj({...newsObj,[highlight.toLowerCase()]:aListTemp})
         setIsOpenSearch(!isOpenSearch)
       }}
       />}
@@ -122,10 +122,10 @@ onPress={()=>{
       }} 
       onPress={()=>{
         if(searchVal!=''){
-          let k=alist.filter((e)=>(e.title.includes(searchVal) || e.description.includes(searchVal)))
-          setAlist(k)
+          let k=newsObj[highlight.toLowerCase()].filter((e)=>(e.title.includes(searchVal) || e.description.includes(searchVal)))
+          setNewsObj({...newsObj,[highlight.toLowerCase()]:k})
         }else{
-          setAlist(aListTemp) //putting back original data
+          setNewsObj({...newsObj,[highlight.toLowerCase()]:aListTemp}) //putting back original data
         }
       }}
       />

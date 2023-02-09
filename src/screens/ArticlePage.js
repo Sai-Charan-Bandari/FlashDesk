@@ -2,7 +2,7 @@ import { View, Text, Linking,Share } from 'react-native'
 import React, { useEffect } from 'react'
 import { Box, Divider,HStack,IconButton,Image, ScrollView ,Icon,FavouriteIcon, Button,useToast} from 'native-base'
 import {AntDesign, MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
-import { savedSources,notInterestedSources,fabVisible } from '../Recoil/Atoms'
+import { savedSources,notInterestedSources,fabVisible,loadedNewsArticles } from '../Recoil/Atoms'
 import { useRecoilState,useSetRecoilState } from 'recoil'
 
 
@@ -10,6 +10,7 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
   const [val,set]=useRecoilState(savedSources)
   const [notval,setnotval]=useRecoilState(notInterestedSources)
   const setShowFab=useSetRecoilState(fabVisible)
+  const [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
 
   useEffect(()=>{
     // on create
@@ -78,6 +79,16 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
                 set(k)
                 }
                 setnotval([...notval,data.source.name]);
+                //resetting newsObj to default but u must keep the saved sources as it is ...else there is chance to face errors
+                setNewsObj({...newsObj,
+                  general:[],
+                  business:[],
+                  science:[],
+                  entertainment:[],
+                  sports:[],
+                  health:[],
+                  technology:[],
+                })
                 toast.show({description:'marked as not-interested',duration:500})
             }
         }}
@@ -91,6 +102,7 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
           if(val.includes(data.source.name)){
                 let k=val.filter((e)=>e!=data.source.name)
                 set(k)
+/////////////////////////we can also remove that particular key from newsObj (similarly add this functionlity in EditSavedSrc also )//////////////////////////////
                 toast.show({description:'unsaved',duration:500})
               }else{
                 //if any blocked src needs to be saved
@@ -99,6 +111,12 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
                 setnotval(k)
                 }
                 set([...val,data.source.name]);
+                //we need to add this source as a new category with filtered 'general' data into newsObj
+                let d3=newsObj['general'].filter((e)=>e.source.name==data.source.name)
+                if(d3.length == 0)
+                d3=newsObj['general']
+                setNewsObj({...newsObj,[data.source.name.toLowerCase()]:d3})
+                //the above things must be done before the user sets the category to this source_name
                 toast.show({description:'saved as interested source',duration:500})
             }
         }}
