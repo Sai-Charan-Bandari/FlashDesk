@@ -34,7 +34,7 @@ const Home=({navigation})=>{
       let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/"+k+"/in.json")
       let d2=await d1.json()
       d3=d2.articles
-      console.log("fetched")
+      console.log("fetched ",k)
     //duplicating unfiltered d3
     d4=d3
 
@@ -55,12 +55,20 @@ const Home=({navigation})=>{
       getData()
     }
   },[categorizer])
+
   useEffect(()=>{
-    console.log('newsObj updated')
+    console.log('newsObj updated ',Object.keys(newsObj))
     if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
       getData()
     }
   },[newsObj])
+  
+  useEffect(()=>{
+    console.log('newsObj updated ',Object.keys(newsObj))
+    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
+      getData()
+    }
+  },[])
 
   return(
     <Box>

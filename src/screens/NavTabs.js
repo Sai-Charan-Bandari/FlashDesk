@@ -3,15 +3,51 @@ import { View, useWindowDimensions } from 'react-native';
 import { TabView, SceneMap } from 'react-native-tab-view';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import HeaderMenu from './HeaderMenu';
-import { logged, tabIndex } from '../Recoil/Atoms';
+import { logged, tabIndex, username } from '../Recoil/Atoms';
 import { useRecoilValue,useRecoilState} from 'recoil';
 import HomeNavContainer from './HomeNavContainer';
 import StartOptions from './StartOptions';
 import SubNavContainer from './SubNavContainer';
 import Intro from './Intro';
+import app from '../../firebaseConfig';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { doc, getDoc, getFirestore } from 'firebase/firestore';
+import { async } from '@firebase/util';
+
 
 export default function NavTabs() {
-  const loggedIn=useRecoilValue(logged)
+  const [loggedIn,setLoggedIn]=useRecoilState(logged)
+  const db=getFirestore(app)
+  const [userName,setUserName]=useRecoilState(username)
+  const auth=getAuth(app)
+  onAuthStateChanged(auth,(user) => {
+    if (user) {
+      const uid = user.uid;
+      setData(uid);
+      // alert(uid)
+    } else {
+      setLoggedIn(false)
+      // alert('successfully logged out')
+    }
+  });
+
+ const setData=async(uid)=>{
+   console.log("called setdaata")
+  try{
+    const docRef2=doc(db,"Users",uid)
+    console.log("got docref")
+    const docSnap2 =await getDoc(docRef2)
+    if(docSnap2.exists()){
+      console.log("got docsnap")
+      setUserName(docSnap2.data().email.substring(0,docSnap2.data().email.length-10))
+         setLoggedIn(true)
+  }
+}
+  catch(e){
+  console.log("erroor in setting data ",e)
+  }
+}
+
   const layout = useWindowDimensions();
 
   const [index, setIndex] = useRecoilState(tabIndex);

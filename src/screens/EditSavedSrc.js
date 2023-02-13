@@ -9,7 +9,7 @@ import { useRecoilState ,useSetRecoilState} from 'recoil'
 const EditSavedSrc = ({navigation,route:{params:{type}}}) => {
   let [savedSrc,setSavedSrc]=useRecoilState(savedSources)
   let [notSrc,setNotSrc]=useRecoilState(notInterestedSources)
-  const setNewsObj=useSetRecoilState(loadedNewsArticles)
+  const [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
 
   if(type){ //saved src
   return (
@@ -43,7 +43,7 @@ const EditSavedSrc = ({navigation,route:{params:{type}}}) => {
         }
         </Center>
   )
-      }else{ //not interested src
+      }else{ //not interested src/blocked src
         return(
           <Center bg='white'>
           <HStack>
@@ -66,8 +66,8 @@ const EditSavedSrc = ({navigation,route:{params:{type}}}) => {
             onPress={()=>{
                     let k=notSrc.filter((e)=>e!=item)
                     setNotSrc(k)
-                    //resetting newsObj to default
-                setNewsObj({
+                    //resetting newsObj to default except savedsources... else we may get  undefined error
+                setNewsObj({...newsObj,
                   general:[],
                   business:[],
                   science:[],

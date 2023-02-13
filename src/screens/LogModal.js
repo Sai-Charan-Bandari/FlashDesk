@@ -11,6 +11,8 @@ import { async } from '@firebase/util'
 
 const LogModal = ({setShowModal}) => {
 
+let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
+
   let setSavedNewsArticles=useSetRecoilState(savedNewsArticles)
   let setSavedSources=useSetRecoilState(savedSources)
   let setLoadImg=useSetRecoilState(loadImg)
@@ -20,6 +22,7 @@ const LogModal = ({setShowModal}) => {
 
   let [categorizer,setCategorizer]=useRecoilState(category)
 
+
     const auth=getAuth(app)
     const db=getFirestore(app)
     const [loggedIn,setLoggedIn]=useRecoilState(logged)
@@ -28,8 +31,8 @@ const LogModal = ({setShowModal}) => {
     },[loggedIn])
 
     const [userName,setUserName]=useRecoilState(username)
-    const [password,setPassword]=useState('')
-    const [email,setEmail]=useState('')
+    const [password,setPassword]=useState('Sukku@12345')
+    const [email,setEmail]=useState('sukumar@gmail.com')
     const [modalState,setModalState]=useState(0)
     //0-> nrml , 1-> login, 2-> signup
 
@@ -81,21 +84,16 @@ const LogModal = ({setShowModal}) => {
         {modalState==1
         &&
         <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
-        <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)}></Input>
-        <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)}></Input>
+        <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)} value={email} ></Input>
+        <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)} value={password}></Input>
         <Button width={'100%'}  onPress={()=>{
             signInWithEmailAndPassword(auth,email,password).then(async(userCredential)=> {
+          let newsCopy={...newsObj}
                 // first chck if user signed into firebase successfully or not
                 const user = userCredential.user;
                 // now check if the user's data is present in firestore or not & get user data
                 try {
-                    const docRef = doc(db, "Users", user.uid);
-                      const docSnap = await getDoc(docRef);
-
-                            if (docSnap.exists()) {
-                              console.log("docsnap1 : ", docSnap.data());
-                              try{
-                              const docRef2=doc(db,"UsersSavedData",user.uid)
+                  const docRef2=doc(db,"UsersSavedData",user.uid)
                               const docSnap2 = await getDoc(docRef2)
                               if(docSnap2.exists()){
                                 setUserName(email.substring(0,email.length-10))
@@ -106,30 +104,20 @@ const LogModal = ({setShowModal}) => {
                                    setNotInterestedSources(dataObj.notInterestedSources)
                                    setSavedCategories(dataObj.savedCategories)
                                    setSavedSources(dataObj.savedSources)
+                                  for(let i=0;i<dataObj.savedSources.length;i++){
+                                    let d3=newsCopy['general'].filter((e)=>e.source.name==dataObj.savedSources[i])
+                                    if(d3.length == 0) d3=newsCopy['general']
+                                    newsCopy[dataObj.savedSources[i].toLowerCase()]=d3
+                                  }
+                                    setNewsObj(newsCopy)
                                    //setting defaultcat maynot be required
                                    setDefaultCategory(dataObj.defaultCategory)
                                    //setSavedArticles
                                    setCategorizer(dataObj.defaultCategory)
-                                  console.log("docsnap2 : ",dataObj)
                               }
                               }catch (e) {
                                 console.error("Error adding document2: ", e);
                               }
-                            } else {
-                             // doc.data() will be undefined in this case
-                            console.log("No such document!");
-                            }
-
-                            
-                         //set loadImg set by the user
-                        //  here take defaultCategory set by the user and setCategorizer to that value
-                        //set not interested categories
-                        //set saved categories
-                        //set saved sources
-                        //fetch saved articles from general using their titles (if not found,skip) and then set saved articles
-                  } catch (e) {
-                      console.error("Error adding document1: ", e);
-                    }
               })
               .catch((error) => {
                 alert("error logging in")
@@ -142,8 +130,8 @@ const LogModal = ({setShowModal}) => {
 
         {modalState==2 &&
         <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
-        <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)}></Input>
-        <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)}></Input>
+        <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)} ></Input>
+        <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)} ></Input>
         <Button width={'100%'}  onPress={()=>{
             createUserWithEmailAndPassword(auth,email,password)
             .then(async(userCredential) => {
@@ -156,26 +144,13 @@ const LogModal = ({setShowModal}) => {
                       password: password,
                       username:email.substring(0,email.length-10)
                     });
-                    console.log("created user")
-                    try{
-                      const docRef2 = await setDoc(doc(db, "UsersSavedData",user.uid), {
-                        defaultCategory:'general',
-                        loadImg: true,
-                        notInterestedSources:[],
-                        savedArticles:[],
-                        savedCategories:[],
-                        savedSources:[]
-                      });
-                      setUserName(email.substring(0,email.length-10))
-                         setLoggedIn(true)
-                         setShowModal(false)
-                         setRevertOrder(true)
-                          setIndex(0)
-                    }catch(e){
-                      console.log("error adding doc2:",e)
-                    }
+                    setUserName(email.substring(0,email.length-10))
+                       setLoggedIn(true)
+                       setShowModal(false)
+                       setRevertOrder(true)
+                        setIndex(0)
                 } catch (e) {
-                    console.error("Error adding doc1: ", e);
+                    console.error("Error adding document: ", e);
                   }
                 })
                 .catch((error) => {

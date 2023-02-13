@@ -31,10 +31,9 @@ const FilterMenu = () => {
     let [searchVal,setSearchVal]=useState('')
     let [isOpenSearch,setIsOpenSearch]=useState(false)
     
-    
   return (
     <Box height={20}>
-
+        {/* CATEGORIES */}
         {toggle==true && isOpenSearch==false
         &&
         <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2' bg={'gray.200'}>
@@ -60,6 +59,7 @@ const FilterMenu = () => {
           }
         </ScrollView>
         }
+        {/* SOURCES */}
         {toggle==false && isOpenSearch==false
         &&
         <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2' bg={'gray.200'}>
