@@ -25,7 +25,7 @@ const OptionCard = ({cat,color,type}) => {
     const [savedCat,setSavedCat] = useRecoilState(savedCategories)
     let lowerCat=cat.toLowerCase()
     return(
-      <Button shadow={5} size={40}  _text={!savedCat.includes(lowerCat) ? {fontSize:'18',fontWeight:'bold', color:'black'} : {fontSize:'18',fontWeight:'bold',color:'blue.500'}} rounded='5' m='2' bg={color}
+      <Button shadow={5} size={40}  _text={!savedCat.includes(lowerCat) ? {fontSize:'18',fontWeight:'bold', color:'black'} : {fontSize:'18',fontWeight:'bold',color:'black'}} rounded='5' m='2' bg={color} borderWidth={savedCat.includes(lowerCat) ? '2' : '0'}
     onPress={()=>{
       if(savedCat.includes(lowerCat)){
         let k=savedCat.filter((e)=>e!=lowerCat)

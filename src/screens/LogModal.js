@@ -100,10 +100,12 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
                                    setLoggedIn(true)
                                    setShowModal(false)
                                    let dataObj=docSnap2.data()
+                                   console.log("dataObj is : ",dataObj)
                                    setLoadImg(dataObj.loadImg)
                                    setNotInterestedSources(dataObj.notInterestedSources)
                                    setSavedCategories(dataObj.savedCategories)
                                    setSavedSources(dataObj.savedSources)
+                                   setSavedNewsArticles(dataObj.savedNewsArticles)
                                   for(let i=0;i<dataObj.savedSources.length;i++){
                                     let d3=newsCopy['general'].filter((e)=>e.source.name==dataObj.savedSources[i])
                                     if(d3.length == 0) d3=newsCopy['general']
@@ -112,7 +114,6 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
                                     setNewsObj(newsCopy)
                                    //setting defaultcat maynot be required
                                    setDefaultCategory(dataObj.defaultCategory)
-                                   //setSavedArticles
                                    setCategorizer(dataObj.defaultCategory)
                               }
                               }catch (e) {

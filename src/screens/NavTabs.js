@@ -20,16 +20,16 @@ export default function NavTabs() {
   const db=getFirestore(app)
   const [userName,setUserName]=useRecoilState(username)
   const auth=getAuth(app)
-  onAuthStateChanged(auth,(user) => {
-    if (user) {
-      const uid = user.uid;
-      setData(uid);
-      // alert(uid)
-    } else {
-      setLoggedIn(false)
-      // alert('successfully logged out')
-    }
-  });
+  // onAuthStateChanged(auth,(user) => {
+  //   if (user) {
+  //     const uid = user.uid;
+  //     setData(uid);
+  //     // alert(uid)
+  //   } else {
+  //     setLoggedIn(false)
+  //     // alert('successfully logged out')
+  //   }
+  // });
 
  const setData=async(uid)=>{
    console.log("called setdaata")
@@ -55,20 +55,20 @@ export default function NavTabs() {
   // but the routes did not get updated...so i placed it in useState of loggedIn
   const [routes,setRoutes] = React.useState([])
  React.useEffect(()=>{
-  loggedIn 
-  ?
+  // loggedIn 
+  // ?
  setRoutes( [
   { key: 'first', title: 'First' },
   { key: 'second', title: 'Second' },
   { key: 'third', title: 'Third' },
   { key: 'fourth', title: 'Fourth' },
 ])
-:
-setRoutes([
-  { key: 'first', title: 'First' },
-  { key: 'second', title: 'Second' },
-  { key: 'fourth', title: 'Fourth' },
-    ])
+// :
+// setRoutes([
+//   { key: 'first', title: 'First' },
+//   { key: 'second', title: 'Second' },
+//   { key: 'fourth', title: 'Fourth' },
+//     ])
  },[loggedIn])
 
   React.useEffect(()=>{

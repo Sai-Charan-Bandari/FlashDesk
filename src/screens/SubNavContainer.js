@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import Profile from './Profile'
 import EditSavedSrc from './EditSavedSrc'
 import SavedNewsCards from './SavedNewsCards'
+import ArticlePage from './ArticlePage'
 
 
 //NOTE: THIS TAB IS VISIBLE ONLY IF LOGGED IS TRUE...
@@ -15,6 +16,7 @@ const SubNavContainer = () => {
     <NavigationContainer>
         <Stack.Navigator initialRouteName='Profile' screenOptions={{headerShown:false}}>
             <Stack.Screen name='Profile' component={Profile}/>
+            <Stack.Screen name='ArticlePage' component={ArticlePage}/>
             <Stack.Screen name='EditSavedSrc' component={EditSavedSrc}/>
             <Stack.Screen name='SavedNewsCards' component={SavedNewsCards}/>
         </Stack.Navigator>
