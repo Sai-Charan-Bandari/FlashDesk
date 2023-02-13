@@ -6,6 +6,7 @@ import NewsCard from './NewsCard'
 import { useRecoilState,useRecoilValue } from 'recoil'
 import { loadedNewsArticles,category,notInterestedSources } from '../Recoil/Atoms'
 import { categories } from './StartOptions'
+import MyActivityIndicator from './MyActivityIndicator'
 // import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
@@ -24,6 +25,7 @@ const Home=({navigation})=>{
   const categorizer=useRecoilValue(category)
 
   const getData=async()=>{
+    setIsLoading(true)
     //it sure that k is a category name but not source name
     let k=categorizer.toLowerCase() //default
 
@@ -38,45 +40,48 @@ const Home=({navigation})=>{
     //duplicating unfiltered d3
     d4=d3
 
-      if(blockedSrc.length>0){
-        d3=d4.filter((e)=>!blockedSrc.includes(e.source.name))
-      }
+    if(blockedSrc.length>0){
+      d3=d4.filter((e)=>!blockedSrc.includes(e.source.name))
+    }
     
     setNewsObj({...newsObj,[k]:d3})
     setIsLoading(false)
-    }catch(e){
-      console.log('error in fetching data')
-    }
+  }catch(e){
+    console.log('error in fetching data')
   }
+}
 
-  useEffect(()=>{
-    console.log('called cat :',categorizer)
-    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
-      getData()
-    }
-  },[categorizer])
+useEffect(()=>{
+  console.log('called cat :',categorizer)
+  if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
+    getData()
+  }
+},[categorizer])
 
-  useEffect(()=>{
-    console.log('newsObj updated ',Object.keys(newsObj))
-    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
-      getData()
-    }
-  },[newsObj])
-  
-  useEffect(()=>{
-    console.log('newsObj updated ',Object.keys(newsObj))
-    if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
-      getData()
-    }
-  },[])
+useEffect(()=>{
+  console.log('newsObj updated ',Object.keys(newsObj))
+  if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
+    getData()
+  }
+},[newsObj])
 
-  return(
-    <Box>
+useEffect(()=>{
+  console.log('newsObj updated ',Object.keys(newsObj))
+  if(newsObj[categorizer.toLowerCase()].length==0){ //if that category data is not available
+    getData()
+  }
+},[])
+
+return(
+  <Box>
       <FilterMenu />
      
+  { isLoading &&
+<Button disabled>loading news...</Button>
+  }
       {isLoading
       ?
-      <Spinner size={'lg'} />
+      <MyActivityIndicator />
       :
       <FlatList style={{height:'90%'}} data={newsObj[categorizer.toLowerCase()]} renderItem={({item})=>{
         // console.log("the item is ",item)
@@ -92,9 +97,6 @@ const Home=({navigation})=>{
       } />
       }
       
-        { isLoading &&
-      <Button disabled>loading news...</Button>
-        }
 
     </Box>
   )

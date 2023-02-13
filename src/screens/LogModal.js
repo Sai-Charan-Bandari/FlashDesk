@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View ,Modal} from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View ,Modal, ActivityIndicator} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Center, Input} from 'native-base'
 import {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
@@ -7,6 +7,7 @@ import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword,sign
 import { getFirestore,collection, setDoc, doc, getDoc } from "firebase/firestore";
 import app from '../../firebaseConfig'
 import { async } from '@firebase/util'
+import MyActivityIndicator from './MyActivityIndicator'
 
 
 const LogModal = ({setShowModal}) => {
@@ -34,7 +35,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
     const [password,setPassword]=useState('Sukku@12345')
     const [email,setEmail]=useState('sukumar@gmail.com')
     const [modalState,setModalState]=useState(0)
-    //0-> nrml , 1-> login, 2-> signup
+    //0-> nrml , 1-> login, 2-> signup, 3-> loading
 
     let setIndex=useSetRecoilState(tabIndex)
     let setRevertOrder=useSetRecoilState(orderOfStartOptions)
@@ -87,6 +88,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
         <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)} value={email} ></Input>
         <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)} value={password}></Input>
         <Button width={'100%'}  onPress={()=>{
+          setModalState(3)
             signInWithEmailAndPassword(auth,email,password).then(async(userCredential)=> {
           let newsCopy={...newsObj}
                 // first chck if user signed into firebase successfully or not
@@ -134,6 +136,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
         <Input placeholder='Email/Username' onChangeText={(txt)=>setEmail(txt)} ></Input>
         <Input placeholder='Password' onChangeText={(txt)=>setPassword(txt)} ></Input>
         <Button width={'100%'}  onPress={()=>{
+          setModalState(3)
             createUserWithEmailAndPassword(auth,email,password)
             .then(async(userCredential) => {
               // Signed in 
@@ -164,6 +167,10 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
         }}>Sign up</Button>
         </Box>
         }
+
+        {/* LOADING */}
+
+        {modalState==3 && <MyActivityIndicator/>}
         
       </TouchableOpacity>
     </Modal>
