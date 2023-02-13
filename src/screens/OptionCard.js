@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button } from 'native-base'
 import {useSetRecoilState,useRecoilState, useRecoilValue} from 'recoil'
 import { tabIndex,savedCategories,category} from '../Recoil/Atoms'
@@ -23,15 +23,15 @@ const OptionCard = ({cat,color,type}) => {
   else{
     //checkbox
     const [savedCat,setSavedCat] = useRecoilState(savedCategories)
-    let lowerCat=cat.toLowerCase()
+    
     return(
-      <Button shadow={5} size={40}  _text={!savedCat.includes(lowerCat) ? {fontSize:'18',fontWeight:'bold', color:'black'} : {fontSize:'18',fontWeight:'bold',color:'black'}} rounded='5' m='2' bg={color} borderWidth={savedCat.includes(lowerCat) ? '2' : '0'}
+      <Button shadow={5} size={40}  _text={!savedCat.includes(cat) ? {fontSize:'18',fontWeight:'bold', color:'black'} : {fontSize:'18',fontWeight:'bold',color:'black'}} rounded='5' m='2' bg={color} borderWidth={savedCat.includes(cat) ? '3' : '0'} borderColor={savedCat.includes(cat)?'red.500':'black'}
     onPress={()=>{
-      if(savedCat.includes(lowerCat)){
-        let k=savedCat.filter((e)=>e!=lowerCat)
+      if(savedCat.includes(cat)){
+        let k=savedCat.filter((e)=>e!=cat)
         setSavedCat(k)
       }else{
-        setSavedCat([...savedCat,lowerCat])
+        setSavedCat([...savedCat,cat])
       }
     }}
     >

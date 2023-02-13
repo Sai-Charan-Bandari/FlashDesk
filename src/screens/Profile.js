@@ -1,15 +1,13 @@
 import { View, Text,Switch, TouchableOpacity} from 'react-native'
 import React, { useState } from 'react'
 import {useRecoilState,useRecoilValue,useSetRecoilState} from 'recoil'
-import { savedNewsArticles,loadImg,username,savedCategories,tabIndex,orderOfStartOptions, savedSources,notInterestedSources, defaultCategory} from '../Recoil/Atoms'
+import { savedNewsArticles,loadImg,userDetails,savedCategories,tabIndex,orderOfStartOptions, savedSources,notInterestedSources, defaultCategory} from '../Recoil/Atoms'
 import { FlatList,Box, HStack ,Button, Radio} from 'native-base'
-import NewsCard from './NewsCard'
-import  OptionCard from './OptionCard'
 import { categories } from './StartOptions'
 
 const Profile = ({navigation}) => {
     let val=useRecoilValue(savedNewsArticles)
-    let uname=useRecoilValue(username)
+    let uname=useRecoilValue(userDetails)
     let [isloadImg,setIsLoadImg]=useRecoilState(loadImg)
     let savedCat=useRecoilValue(savedCategories)
     let savedSrc=useRecoilValue(savedSources)
@@ -19,7 +17,8 @@ const Profile = ({navigation}) => {
     let [radioValue,setRadioValue]=useRecoilState(defaultCategory)
   return (
     <Box pl='3'>
-      <Text>User Name : {uname}</Text>
+      <Text>User Name : {uname.username}</Text>
+      <Text>User ID : {uname.uid}</Text>
       <Text>Email : </Text>
 
       {/* show/hide imgs in flashcards*/}

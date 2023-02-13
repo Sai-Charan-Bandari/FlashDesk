@@ -22,13 +22,13 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
     return ()=>setShowFab(true)
   },[])
 
-    useEffect(()=>{
-      console.log('notval : ',notval.length)
-    },[notval])
+    // useEffect(()=>{
+    //   console.log('notval : ',notval.length)
+    // },[notval])
 
-    useEffect(()=>{
-      console.log('val : ',val.length)
-    },[val])
+    // useEffect(()=>{
+    //   console.log('val : ',val.length)
+    // },[val])
 
   let toast=useToast()
     const onShare = async () => {
@@ -102,7 +102,6 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
           if(val.includes(data.source.name)){
                 let k=val.filter((e)=>e!=data.source.name)
                 set(k)
-/////////////////////////we can also remove that particular key from newsObj (similarly add this functionlity in EditSavedSrc also )//////////////////////////////
                 toast.show({description:'unsaved',duration:500})
               }else{
                 //if any blocked src needs to be saved
@@ -115,6 +114,7 @@ const ArticlePage = ({route:{params:{data}},navigation}) => {
                 let d3=newsObj['general'].filter((e)=>e.source.name==data.source.name)
                 if(d3.length == 0)
                 d3=newsObj['general']
+                console.log("adding src ",data.source.name.toLowerCase()," into newsObj ",d3.length)
                 setNewsObj({...newsObj,[data.source.name.toLowerCase()]:d3})
                 //the above things must be done before the user sets the category to this source_name
                 toast.show({description:'saved as interested source',duration:500})

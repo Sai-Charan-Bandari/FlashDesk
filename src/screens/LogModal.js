@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View ,Modal} from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { Box, Button, Center, Input} from 'native-base'
-import {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
+import {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
 import { useRecoilState,useSetRecoilState } from 'recoil'
 import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut} from "firebase/auth";
 import { getFirestore,collection, setDoc, doc, getDoc } from "firebase/firestore";
@@ -30,7 +30,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
         console.log('loggedIn : ',loggedIn)
     },[loggedIn])
 
-    const [userName,setUserName]=useRecoilState(username)
+    const [userName,setUserName]=useRecoilState(userDetails)
     const [password,setPassword]=useState('Sukku@12345')
     const [email,setEmail]=useState('sukumar@gmail.com')
     const [modalState,setModalState]=useState(0)
@@ -48,7 +48,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
             ?
             <Center>
             <Box width={'100%'} mb='3' bg='red.700' _text={{color:'white',margin:'auto'}} p='2' rounded={4}>
-                Logged in as {userName}
+                Logged in as {userName.username}
             </Box>
             <Button width={'100%'} onPress={()=>{
                 signOut(auth).then(() => {
@@ -56,7 +56,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
                   }).catch((error) => {
                    console.log("An error happened during signout")
                   });
-                setUserName('NULL')
+                setUserName({username:'NULL',uid:''})
                 setLoggedIn(false)
                 // setShowModal(false)
             }}>
@@ -96,7 +96,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
                   const docRef2=doc(db,"UsersSavedData",user.uid)
                               const docSnap2 = await getDoc(docRef2)
                               if(docSnap2.exists()){
-                                setUserName(email.substring(0,email.length-10))
+                                setUserName({username:email.substring(0,email.length-10),uid:user.uid})
                                    setLoggedIn(true)
                                    setShowModal(false)
                                    let dataObj=docSnap2.data()
@@ -145,7 +145,7 @@ let [newsObj,setNewsObj]=useRecoilState(loadedNewsArticles)
                       password: password,
                       username:email.substring(0,email.length-10)
                     });
-                    setUserName(email.substring(0,email.length-10))
+                    setUserName({username:email.substring(0,email.length-10),uid:user.uid})
                        setLoggedIn(true)
                        setShowModal(false)
                        setRevertOrder(true)

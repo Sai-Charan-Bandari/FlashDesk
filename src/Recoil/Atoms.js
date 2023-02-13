@@ -72,11 +72,12 @@ import {
     // make sure to set default to false... befroe firebase auth
   })
 
-  //change this atom to userDetails later
-  const username=atom({
-    key:'username',
-    default:'NULL'
-    // default:'NULL'
+  const userDetails=atom({
+    key:'userDetails',
+    default:{
+      username:'NULL',
+      uid:''
+    }
   })
 
   //used in FilterMenu and NavTabs
@@ -86,4 +87,4 @@ import {
     default:1
   })
 
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,username,tabIndex,loadedNewsArticles,orderOfStartOptions,notInterestedSources,defaultCategory,fabVisible}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,notInterestedSources,defaultCategory,fabVisible}

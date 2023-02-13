@@ -39,9 +39,8 @@ const FilterMenu = () => {
         <ScrollView horizontal showsHorizontalScrollIndicator={false} p='2' bg={'gray.200'}>
             <Button onPress={()=>setToggle(!toggle)} alignItems={'center'} bg='white' _text={{fontWeight:'bold',color:'black'}}>Categories</Button>
             {
-              // if user is not logged in show all categories
-              // if user is logged in but he has not saved any categories except general then show all categories
-            loggedIn==false || savedCatArr.length==1
+              //(not checking if user is logged in) ... if he has not saved any categories except general then show all categories
+            savedCatArr.length==1
             ?
             categories.map((ele,i)=>
             <Button m='2' p='2' key={i} rounded={25} bgColor={highlight==ele ? 'white' : 'red.800'} _text={{color:highlight==ele ?'black' :'white',fontWeight:'bold'}} borderColor={highlight==ele && 'red.700'} borderWidth={highlight==ele ? 3 : 0}
