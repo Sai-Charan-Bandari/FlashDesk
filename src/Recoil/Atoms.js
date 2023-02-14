@@ -32,7 +32,7 @@ import {
   // denotes default Category to be loaded on login
   const defaultCategory=atom({
     key:'defaultCategory',
-    default:''
+    default:'general'
   })
   // denotes current selected Category
   //from 25th commit onwards there is no source atom (representing selected source)... it is identified by category only
