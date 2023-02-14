@@ -6,6 +6,9 @@ import { useRecoilState,useSetRecoilState } from 'recoil'
 import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut} from "firebase/auth";
 import { getFirestore,collection, setDoc, doc, getDoc } from "firebase/firestore";
 import app from '../../firebaseConfig'
+import { Cache } from "react-native-cache";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 const SignupButton = ({setShowModal,setModalState}) => {
     const auth=getAuth(app)
@@ -22,9 +25,42 @@ const SignupButton = ({setShowModal,setModalState}) => {
   let setIndex=useSetRecoilState(tabIndex)
   let setRevertOrder=useSetRecoilState(orderOfStartOptions)
 
-  const setUserName=useSetRecoilState(userDetails)
+  const [userName,setUserName]=useRecoilState(userDetails)
     const [password,setPassword]=useState('Sukku@12345')
     const [email,setEmail]=useState('@gmail.com')
+
+   //cache
+   const cache = new Cache({
+    namespace: "flashdesk",
+    policy: {
+        // maxEntries: 50000, // if unspecified, it can have unlimited entries
+        stdTTL: 0 // the standard ttl as number in seconds, default: 0 (unlimited)
+    },
+    backend: AsyncStorage
+});
+//update userDetails in cache
+      async function setcache(user){ 
+    try{
+    await cache.set("userDetails", JSON.stringify({
+      username:user.username,
+      uid:user.uid
+    }));
+    // await cache.set("userSavedVals", JSON.stringify({
+    //     defaultCategory:'general',
+    //     loadImg: true,
+    //     notInterestedSources:[],
+    //     savedNewsArticles:[],
+    //     savedCategories:['general'],
+    //     savedSources:[]                  
+    //     }));
+    console.log("set data into cache success")
+    // let k=await cache.get('userDetails')
+    // console.log("checking cache : ",k)
+    }catch(e){
+        console.log("could not set userDetails from cache ",e)
+    }
+}
+
 
   return (
     <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
@@ -53,6 +89,9 @@ const SignupButton = ({setShowModal,setModalState}) => {
                     savedCategories:['general'],
                     savedSources:[]                  
                     });
+                    //setting cache
+                    setcache({username:email.substring(0,email.length-10),uid:user.uid})
+                    //
                     //resetting everything
                     if(savedArt.length!=0)
                     setSavedNewsArticles([])

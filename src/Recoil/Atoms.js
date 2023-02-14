@@ -8,6 +8,10 @@ import {
     key:'fabVisible',
     default:true
   })
+  const checkLoginOnStart=atom({
+    key:'checkLoginOnStart',
+    default:true
+  })
   const loadedNewsArticles=atom({
     key:'loadedNewsArticles',
     default:{
@@ -87,4 +91,4 @@ import {
     default:1
   })
 
-  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,notInterestedSources,defaultCategory,fabVisible}
+  export {savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,notInterestedSources,defaultCategory,fabVisible,checkLoginOnStart}

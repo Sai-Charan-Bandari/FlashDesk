@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import {RecoilRoot} from 'recoil';
 import DbUpdater from './src/Functions/DbUpdater';
 import LoginSetter from './src/Functions/LoginSetter';
+import OnStartLoggedInStateSetter from './src/Functions/OnStartLoggedInStateSetter';
 import NavTabs from './src/screens/NavTabs';
 
 export default function App() {
@@ -13,6 +14,7 @@ export default function App() {
       <NavTabs/>
       {/* we r calling this db updater which contains useEffects for all atoms in order to update firestore */}
       <DbUpdater/>
+      <OnStartLoggedInStateSetter/>
       {/* we r just calling this empty comp LoginSetter bcoz it will call onAuthStateChanged */}
       {/* <LoginSetter/> */}
       {/* <StatusBar style="auto" /> */}

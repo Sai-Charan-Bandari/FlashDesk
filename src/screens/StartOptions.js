@@ -35,10 +35,9 @@ const Options1=()=>{
   return(
     <Center m='5'>
     <Heading >
-      {/* Select a Category */}
       Checkout a category
     </Heading>
-    <HStack  my={'10'} >
+    <HStack  my={'9'} >
       <VStack  bg='red.600' pl='2' py='2' roundedLeft={5}>
       <OptionCard cat={categories[0]} type={true} color='white' ></OptionCard>
       <OptionCard cat={categories[1]} type={true} color='orange.400'></OptionCard>
@@ -50,7 +49,7 @@ const Options1=()=>{
       <OptionCard cat={categories[5]} type={true} color='green.400'></OptionCard>
       </VStack>
     </HStack>
-    <Button my='3' width={'3/4'}  onPress={()=>setIndex(1)}>next</Button>
+    <Button my='2' _text={{fontSize:'18',fontWeight:'bold', color:'white'}}  onPress={()=>setIndex(1)}>next</Button>
     </Center>
   )
 }
@@ -60,7 +59,7 @@ const Options2=()=>{
   let [revertOrder,setRevertOrder]=useRecoilState(orderOfStartOptions)
   return(
     <Center m='5'>
-    <Heading mt='10'>Saved Categories</Heading>
+    <Heading mt='10'>Edit Saved Categories</Heading>
       <HStack  mt={'10'} >
         <VStack  bg='red.600' pl='2' py='2' roundedLeft={5}>
         <OptionCard cat={categories[0]} type={false} color='white' ></OptionCard>
@@ -73,10 +72,7 @@ const Options2=()=>{
         <OptionCard cat={categories[5]} type={false} color='green.400'></OptionCard>
         </VStack>
       </HStack>
-      {/* <Button mt='5' width={'3/4'} onPress={()=>navigation.navigate('Home',{text:'General',color:'indigo.200'})}>
-        next
-      </Button> */}
-      <Button mt='5' width={'3/4'} onPress={()=>{
+      <Button mt='5'  _text={{fontSize:'18',fontWeight:'bold', color:'white'}}  onPress={()=>{
         if(revertOrder==true)
         setRevertOrder(false)
         setIndex(1)

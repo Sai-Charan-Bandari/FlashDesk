@@ -6,6 +6,8 @@ import { useRecoilState,useSetRecoilState } from 'recoil'
 import { getAuth,createUserWithEmailAndPassword ,signInWithEmailAndPassword,signOut} from "firebase/auth";
 import { getFirestore,collection, setDoc, doc, getDoc } from "firebase/firestore";
 import app from '../../firebaseConfig'
+import { Cache } from "react-native-cache";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LoginButton = ({setShowModal,setModalState}) => {
     const auth=getAuth(app)
@@ -23,9 +25,41 @@ const LoginButton = ({setShowModal,setModalState}) => {
   let setNotInterestedSources=useSetRecoilState(notInterestedSources)
   let setDefaultCategory=useSetRecoilState(defaultCategory)
 
-  const setUserName=useSetRecoilState(userDetails)
+  const [userName,setUserName]=useRecoilState(userDetails)
     const [password,setPassword]=useState('Sukku@12345')
     const [email,setEmail]=useState('sukumar@gmail.com')
+
+    //cache
+    const cache = new Cache({
+      namespace: "flashdesk",
+      policy: {
+          // maxEntries: 50000, // if unspecified, it can have unlimited entries
+          stdTTL: 0 // the standard ttl as number in seconds, default: 0 (unlimited)
+      },
+      backend: AsyncStorage
+  });
+  //setting cache on login
+  async function setcache(user){ 
+    try{
+    await cache.set("userDetails", JSON.stringify({
+      username:user.username,
+      uid:user.uid
+    }));
+    // await cache.set("userSavedVals", JSON.stringify({
+    //     defaultCategory:'general',
+    //     loadImg: true,
+    //     notInterestedSources:[],
+    //     savedNewsArticles:[],
+    //     savedCategories:['general'],
+    //     savedSources:[]                  
+    //     }));
+    console.log("set data into cache success")
+    // let k=await cache.get('userDetails')
+    // console.log("checking cache : ",k)
+    }catch(e){
+        console.log("could not set userDetails from cache ",e)
+    }
+}
 
 return (
     <Box width='220' rounded={10} bg={'white'} height='220' m='auto' p='5'>
@@ -42,6 +76,9 @@ return (
                   const docRef2=doc(db,"UsersSavedData",user.uid)
                               const docSnap2 = await getDoc(docRef2)
                               if(docSnap2.exists()){
+                                //setting cache
+                                setcache({username:email.substring(0,email.length-10),uid:user.uid})
+                                //
                                 setUserName({username:email.substring(0,email.length-10),uid:user.uid})
                                    setLoggedIn(true)
                                    setShowModal(false)
@@ -61,6 +98,7 @@ return (
                                    //setting defaultcat maynot be required
                                    setDefaultCategory(dataObj.defaultCategory)
                                    setCategorizer(dataObj.defaultCategory)
+
                               }
                               }catch (e) {
                                 console.error("Error adding document2: ", e);
