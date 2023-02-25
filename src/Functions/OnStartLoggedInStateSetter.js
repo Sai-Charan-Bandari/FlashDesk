@@ -110,6 +110,13 @@ const OnStartLoggedInStateSetter = () => {
                 setSavedSources(savedSources)
                 //we have to set the sources data in newsObj here only..bcoz fetch (getData) func doesnt support source names
                 let newsCopy={...newsObj}
+                if(newsCopy['general'].length==0){
+                    //if general articles are not yet fetched..probably due to loading of default category
+                    let d1=await fetch("https://saurav.tech/NewsAPI/top-headlines/category/general/in.json")
+                    let d2=await d1.json()
+                    newsCopy['general']=d2.articles
+                    console.log("general articles len 0...so i set it to ",newsCopy['general'].length)
+                }
                 for(let i=0;i<savedSources.length;i++){
                     let d3=newsCopy['general'].filter((e)=>e.source.name==savedSources[i])
                     if(d3.length == 0) d3=newsCopy['general']
