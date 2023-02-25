@@ -24,10 +24,16 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.charan28.newsfront"
     },
     "web": {
       "favicon": "./assets/favicon2.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ce3a66d1-4453-4ef2-bb80-2dd0d85bebf7"
+      }
     }
   }
 }

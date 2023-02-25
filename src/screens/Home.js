@@ -7,7 +7,6 @@ import { useRecoilState,useRecoilValue } from 'recoil'
 import { loadedNewsArticles,category,notInterestedSources } from '../Recoil/Atoms'
 import { categories } from './StartOptions'
 import MyActivityIndicator from './MyActivityIndicator'
-// import {USERKEY} from '../keys'
 
 let BASE_URL = "https://saurav.tech/NewsAPI/"
 // top_headlines_api = BASE_URL+"/top-headlines/category/<category>/<country_code>.json"

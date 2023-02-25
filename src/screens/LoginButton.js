@@ -26,8 +26,8 @@ const LoginButton = ({setShowModal,setModalState}) => {
   let setDefaultCategory=useSetRecoilState(defaultCategory)
 
   const [userName,setUserName]=useRecoilState(userDetails)
-    const [password,setPassword]=useState('Sukku@12345')
-    const [email,setEmail]=useState('sukumar@gmail.com')
+    const [password,setPassword]=useState('')
+    const [email,setEmail]=useState('')
 
     //cache
     const cache = new Cache({

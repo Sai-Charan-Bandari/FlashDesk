@@ -1,6 +1,6 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React, { useEffect } from 'react'
-import { Button } from 'native-base';
+import { Button, useToast } from 'native-base';
 import { Cache } from "react-native-cache";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {checkLoginOnStart,savedNewsArticles,savedSources,loadImg,category,logged,savedCategories,userDetails,tabIndex,loadedNewsArticles,orderOfStartOptions,source,notInterestedSources,defaultCategory} from '../Recoil/Atoms'
@@ -11,6 +11,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 
 
 const OnStartLoggedInStateSetter = () => {
+    let toast=useToast()
     const [check,setCheck]=useRecoilState(checkLoginOnStart)
     const setUser=useSetRecoilState(userDetails)
     const [loggedIn,setLoggedIn]=useRecoilState(logged)
@@ -85,8 +86,10 @@ const OnStartLoggedInStateSetter = () => {
     //     }
     // }
     async function getcache(){
-        try{
         const valueJSON = await cache.get("userDetails");
+        if(valueJSON){
+            toast.show({description:'user object detected',duration:500})
+            try{
         const value=JSON.parse(valueJSON)
         console.log("retrieved cache data ",value)
         if(value.username!='NULL' && value.uid!=''){
@@ -124,12 +127,30 @@ const OnStartLoggedInStateSetter = () => {
     }catch(e){
         console.log("could not get userDetails from cache ",e)
     }
+}else{
+    //initializing default cache items
+    await cache.set("userDetails", JSON.stringify({
+        username:'NULL',
+        uid:''
+    }))
+    await cache.set("userSavedVals", JSON.stringify({
+        defaultCategory:'general',
+            loadImg: true,
+            notInterestedSources:[],
+            savedNewsArticles:[],
+            savedCategories:['general'],
+            savedSources:[]  
+    }));
+    toast.show({description:'default user objects initialized',duration:500})
+}
     }
-    
-    //calling getcache() method
-    if(check){
-        getcache()
-    }
+
+    useEffect(()=>{
+        //calling getcache() method
+        if(check){
+            getcache()
+        }
+    },[])
   return (
     <View>
     {/* <Button my='20' onPress={()=>

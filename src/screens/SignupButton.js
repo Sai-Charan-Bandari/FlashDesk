@@ -26,7 +26,7 @@ const SignupButton = ({setShowModal,setModalState}) => {
   let setRevertOrder=useSetRecoilState(orderOfStartOptions)
 
   const [userName,setUserName]=useRecoilState(userDetails)
-    const [password,setPassword]=useState('Sukku@12345')
+    const [password,setPassword]=useState('')
     const [email,setEmail]=useState('@gmail.com')
 
    //cache
